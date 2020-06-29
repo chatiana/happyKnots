@@ -1,0 +1,29 @@
+{
+  "name": "happyknots",
+  "version": "1.0.0",
+  "description": "ecommerce-happyknots",
+  "main": "app.js",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "ejs": "^3.1.3",
+    "express": "^4.17.1",
+    "express-handlebars": "^4.0.4",
+    "pug": "^3.0.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start":"node app.js",
+    "start-server": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chatiana/happyKnots.git"
+  },
+  "author": "Tatiana Carrillo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/chatiana/happyKnots/issues"
+  },
+  "homepage": "https://github.com/chatiana/happyKnots#readme"
+}
