@@ -13,6 +13,10 @@
                 <input type="text" name="title" id="title" value="<% if (editing) { %><%= product.title %><% } %>">
             </div>
             <div class="form-control">
+                <label for="category">Category</label>
+                <input type="text" name="category" id="category" value="<% if (editing) { %><%= product.category %><% } %>">
+            </div>
+            <div class="form-control">
                 <label for="imageUrl">Image URL</label>
                 <input type="text" name="imageUrl" id="imageUrl" value="<% if (editing) { %><%= product.imageUrl %><% } %>">
             </div>
@@ -26,7 +30,7 @@
             </div>
             <!--add hidden input that stores the prod id. -->
             <% if (editing) { %>
-                <input type="hidden" value="<%= product.id %>" name="productId">
+                <input type="hidden" value="<%= product._id %>" name="productId">
             <% } %>
             <button class="btn" type="submit"><% if (editing) { %> Update Product <% } else { %>Add Product <%} %></button>
         </form>

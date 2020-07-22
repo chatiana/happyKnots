@@ -1,4 +1,16 @@
 <div class="backdrop"></div>
+<div class = "main-header__top">
+    <div class="logo">
+        <p>Happy Knots</p>
+    </div> 
+    <div class = "top-right">
+        <ul class="user-menu">
+           <li><a class="<%= path === '/login' ? 'active' : '' %>"  href="/login">Login <i class="fas fa-user"></i></a> </li>
+           <li><a class="<%= path === '/orders' ? 'active' : '' %>"  href="/cart">Cart<i class="fas fa-shopping-cart"></i></a> </li>
+           <li>Total: € </li>
+        </ul>
+    </div>
+</div>
 <header class="main-header">
     <button id="side-menu-toggle">Menu</button>
     <nav class="main-header__nav">
@@ -6,6 +18,10 @@
             <li class="main-header__item">
                 <a class="<%= path === '/' ? 'active' : '' %>" href="/">Shop</a>
             </li>
+            <li class="main-header__item">
+                <a class="<%= path === '/' ? 'active' : '' %>" href="/about">About</a>
+            </li>
+
             <li class="main-header__item">
                 <a class="<%= path === '/products' ? 'active' : '' %>" href="/products">Products</a>
             </li>
@@ -15,14 +31,14 @@
             <li class="main-header__item">
                 <a class="<%= path === '/orders' ? 'active' : '' %>" href="/orders">Orders</a>
             </li>
-            <li class="main-header__item">
+           <!-- <li class="main-header__item">
                 <a class="<%= path === '/admin/add-product' ? 'active' : '' %>" href="/admin/add-product">Add Product
                 </a>
             </li>
             <li class="main-header__item">
                 <a class="<%= path === '/admin/products' ? 'active' : '' %>" href="/admin/products">Admin Products
                 </a>
-            </li>
+            </li>-->
         </ul>
     </nav>
 </header>
