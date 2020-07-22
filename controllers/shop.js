@@ -1,84 +1,122 @@
 const Product = require('../models/product');
-const Cart = require('../models/cart');
+const Order = require('../models/order');
+
 
 exports.getProducts = (req, res, next) => {
-  Product.fetchAll(products => {
-    res.render('shop/product-list', {  //render view
-      prods: products,
-      pageTitle: 'All Products',
-      path: '/products',
+  Product.find()
+    .then(products => {
+      console.log(products);
+      res.render('shop/product-list', {
+        prods: products,
+        pageTitle: 'All Products',
+        path: '/products'
+      });
+    })
+    .catch(err => {
+      console.log(err);
     });
-  });
 };
 
 exports.getProduct = (req, res, next) => {
-  const prodId = req.params.productId; //estract dynamic path segment. cont: prodId; params object on request to access our productId from routes.
-  Product.findById(prodId, product => {
-    res.render('shop/product-detail', {
-      product: product,     //(left product: key to access on the view. (right product: product that we are retrieveing))
-      pageTitle: product.title,
-      path: '/products'
-  });
-});
+  const prodId = req.params.productId;
+  Product.findById(prodId)
+    .then(product => {
+      res.render('shop/product-detail', {
+        product: product,
+        pageTitle: product.title,
+        path: '/products'
+      });
+    })
+    .catch(err => console.log(err));
 };
 
 exports.getIndex = (req, res, next) => {
-  Product.fetchAll(products => {
-    res.render('shop/index', { //render view
-      prods: products,
-      pageTitle: 'Shop/Index',
-      path: '/',
+  Product.find()
+    .then(products => {
+      res.render('shop/index', {
+        prods: products,
+        pageTitle: 'Shop',
+        path: '/'
+      });
+    })
+    .catch(err => {
+      console.log(err);
     });
-  });
 };
 
+
 exports.getCart = (req, res, next) => {
-  Cart.getCart(cart => {
-    Product.fetchAll (products => {
-      const cartProducts = [];
-      for (product of products){
-        const cartProductData = cart.products.find( prod => prod.id === product.id
-          );
-        if (cartProductData ){
-          cartProducts.push({ productData: product, qty: cartProductData.qty });
-        }
-      }
-      res.render('shop/cart', {  //render view
-        pageTitle: 'Your Cart',
-        path: '/cart',
-        products: cartProducts
-    });
-  });
-});
+  req.user
+    .populate('cart.items.productId')
+    .execPopulate()
+    .then(user => {
+      console.log(products = user.cart.items);
+          res.render('shop/cart', {
+            path: '/cart',
+            pageTitle: 'Your Cart',
+            products: products
+          });
+        })
+    .catch("Nothing in the cart", err => console.log(err));
 };
 
 exports.postCart = (req, res, next) => {
   const prodId = req.body.productId;
-  Product.findById(prodId, product => {
-    Cart.addProduct(prodId, product.price);  //method
-  });
-  res.redirect('/cart');
+  Product.findById(prodId)
+    .then(product => {
+      return req.user.addToCart(product);
+    })
+    .then(result => {
+      console.log(result);
+      res.redirect('/cart');
+    });
 };
 
-//delete product just from the cart
 exports.postCartDeleteProduct = (req, res, next) => {
   const prodId = req.body.productId;
-  Product.findById(prodId, product => {
-    Cart.deleteProduct(prodId, product.price);
-    res.redirect('/cart');
-  });
+  req.user
+    .removeFromCart(prodId)
+    .then(result => {
+      res.redirect('/cart');
+    })
+    .catch(err => console.log(err));
 };
 
-exports.getCheckout = (req, res, next) => {
-  res.render('shop/checkout', {
-    pageTitle: 'Checkout',
-    path: '/checkout'
-  });
-};
+exports.postOrder = (req, res, next) => {
+  req.user
+    .populate('cart.items.productId')
+    .execPopulate()
+    .then(user => {
+      console.log(user.cart.items);
+      const products = user.cart.items.map( i => {
+        return {quantity: i.quantity, product: { ...i.productId._doc }} //store prod id. create new obj using spread operator
+      }); //_doc sotre a lot of meta data
+      const order = new Order({
+        user: {
+          name: req.user.name,
+          userId: req.user
+        },
+        products: products //store products in the order
+      });
+      return order.save();
+    })
+    .then(result => {
+      return req.user.clearCart(); //method will clear cart
+    })
+    .then(() => {  //redirect to order
+      res.redirect('/orders');
+    })
+    .catch(err => console.log(err));
+  };
 
-exports.getOrders = (req, res, next) => {
-  res.render('shop/orders', {
-    pageTitle: 'Your orders',
-    path: '/orders'
-  });
-}
+  exports.getOrders = (req, res, next) => {
+    Order.find({ 'user.userId': req.user._id })
+      .then(orders => {
+        res.render('shop/orders', {
+          path: '/orders',
+          pageTitle: 'Your Orders',
+          orders: orders
+        });
+      })
+      .catch(err => console.log(err));
+  };

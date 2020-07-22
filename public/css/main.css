@@ -14,7 +14,6 @@ main {
   padding: 1rem;
   margin: auto;
 }
-
 form {
   display: inline;
 }
@@ -23,10 +22,32 @@ form {
   text-align: center;
 }
 
+.image {
+  height: 20rem;
+}
+
+.image img {
+  height: 100%;
+}
+/*Main Header Bar*/
+.main-header__top{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 0 1.5rem;
+  height: 6rem;
+  font-weight: lighter;
+  align-items: center;
+}
+.logo{
+  font-family: 'Fredericka the Great', cursive;
+  font-size: 50px;
+}
+/*Main Header Navigation Bar*/
 .main-header {
   width: 100%;
   height: 3.5rem;
-  background-color: #00695c;
+  background-color: #445925;
   padding: 0 1.5rem;
   display: flex;
   align-items: center;
@@ -49,18 +70,46 @@ form {
   margin: 0 1rem;
   padding: 0;
 }
+.top-right{
+  background-color: #94A66D;
+  position: fixed;
+  right: 1rem;
+  top: 0;
+}
 
-.main-header__item a {
+.user-menu {
+  padding-right: 0.5rem;
+  list-style: none;
+  margin-right: 1rem;
+  color:#FBF0E5;
+}
+.user-menu li{
+  display: inline;
+  padding: 0.5rem;
+}
+.user-menu a{
+  color:#FBF0E5;
+text-decoration: none;
+}
+
+.main-header__item a ,
+.main-header__item button {
   text-decoration: none;
-  color: white;
+  color: #94A66D;
+  font: inherit;
+  background: transparent;
+  border: none;
+  cursor: pointer;
 }
 
 .main-header__item a:hover,
 .main-header__item a:active,
-.main-header__item a.active {
-  color: #ffeb3b;
+.main-header__item a.active,
+.main-header__item button:hover,
+.main-header__item button:active {
+  color: white;
 }
-
+/* Responsive Nav  Bar*/
 .mobile-nav {
   width: 30rem;
   height: 100vh;
@@ -102,11 +151,11 @@ form {
 .mobile-nav__item a:active,
 .mobile-nav__item a:hover,
 .mobile-nav__item a.active {
-  background: #00695c;
+  background: #445925;
   color: white;
   border-radius: 3px;
 }
-
+/*Menu Text when responsive*/
 #side-menu-toggle {
   border: 1px solid white;
   font: inherit;
@@ -123,10 +172,10 @@ form {
 
 #side-menu-toggle:active,
 #side-menu-toggle:hover {
-  color: #ffeb3b;
-  border-color: #ffeb3b;
+  color: #FBF0E5;
+  border-color: #FBF0E5;
 }
-
+/*When responsive background menu*/
 .backdrop {
   position: fixed;
   top: 0;
@@ -193,10 +242,20 @@ form {
 
 .btn:hover,
 .btn:active {
-  background-color: #00695c;
+  background-color: #445925;
   color: white;
 }
+.btn.danger {
+  color: red;
+  border-color: red;
+}
 
+.btn.danger:hover,
+.btn.danger:active {
+  background: red;
+  color: white;
+}
+/*Responsive cards*/
 @media (min-width: 768px) {
   .main-header__nav {
     display: flex;
@@ -205,4 +264,18 @@ form {
   #side-menu-toggle {
     display: none;
   }
+}
+
+/*Footer*/
+footer{
+  background-color: #FBF0E5;
+  text-align: center;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+}
+.footer-copyright{
+  background-color: #A77457;
+  color: #FBF0E5;
 }
