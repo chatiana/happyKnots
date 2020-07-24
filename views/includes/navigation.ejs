@@ -1,25 +1,39 @@
 <div class="backdrop"></div>
-<div class = "main-header__top">
+<div class="main-header__top">
     <div class="logo">
         <p>Happy Knots</p>
-    </div> 
-    <div class = "top-right">
+    </div>
+    <div class="top-right">
         <ul class="user-menu">
-           <li><a class="<%= path === '/login' ? 'active' : '' %>"  href="/login">Login <i class="fas fa-user"></i></a> </li>
-           <li><a class="<%= path === '/orders' ? 'active' : '' %>"  href="/cart">Cart<i class="fas fa-shopping-cart"></i></a> </li>
-           <li>Total: € </li>
+
+            <% if (!isAuthenticated) { %>
+            <li><a href="/userdash"><i class="fas fa-user"></i></a></li>
+            <li><a class="<%= path === '/login' ? 'active' : '' %>" href="/login">Login</a> </li>
+            <% } else { %>
+            <li><a href="/userdash"><i class="fas fa-user"></i></a></li>
+            <li class="main-header__item">
+                <form action="/logout" method="post">
+                    <button type="submit">Logout</button>
+                </form>
+            </li>
+            <% } %>
+            <li><a class="<%= path === '/orders' ? 'active' : '' %>" href="/cart"><i
+                        class="fas fa-shopping-cart"></i></a> </li>
+            <li>Total: € 0.00</li>
         </ul>
     </div>
 </div>
 <header class="main-header">
-    <button id="side-menu-toggle">Menu</button>
+    <button id="side-menu-toggle"><i class='fas fa-bars' style='font-size:36px'></i></button>
     <nav class="main-header__nav">
         <ul class="main-header__item-list">
+
             <li class="main-header__item">
                 <a class="<%= path === '/' ? 'active' : '' %>" href="/">Shop</a>
             </li>
+
             <li class="main-header__item">
-                <a class="<%= path === '/' ? 'active' : '' %>" href="/about">About</a>
+                <a class="<%= path === '/about' ? 'active' : '' %>" href="/about">About</a>
             </li>
 
             <li class="main-header__item">
@@ -31,39 +45,60 @@
             <li class="main-header__item">
                 <a class="<%= path === '/orders' ? 'active' : '' %>" href="/orders">Orders</a>
             </li>
-           <!-- <li class="main-header__item">
-                <a class="<%= path === '/admin/add-product' ? 'active' : '' %>" href="/admin/add-product">Add Product
-                </a>
+            <li class="main-header__item">
+                <a class="<%= path === '/contact' ? 'active' : '' %>" href="/contact">Contact</a>
+            </li>
+            <% if (isAuthenticated) { %>
+            <li class="main-header__item">
+                <a class="<%= path === '/admin/add-product' ? 'active' : '' %>" href="/admin/add-product">Add
+                    Product</a>
             </li>
             <li class="main-header__item">
-                <a class="<%= path === '/admin/products' ? 'active' : '' %>" href="/admin/products">Admin Products
-                </a>
-            </li>-->
+                <a class="<%= path === '/admin/products' ? 'active' : '' %>" href="/admin/products">Admin Products</a>
+            </li>
+            <% } %>
         </ul>
     </nav>
 </header>
 
 <nav class="mobile-nav">
-        <ul class="mobile-nav__item-list">
-                <li class="mobile-nav__item">
-                    <a class="<%= path === '/' ? 'active' : '' %>" href="/">Shop</a>
-                </li>
-                <li class="mobile-nav__item">
-                    <a class="<%= path === '/products' ? 'active' : '' %>" href="/products">Products</a>
-                </li>
-                <li class="mobile-nav__item">
-                    <a class="<%= path === '/cart' ? 'active' : '' %>" href="/cart">Cart</a>
-                </li>
-                <li class="mobile-nav__item">
-                    <a class="<%= path === '/orders' ? 'active' : '' %>" href="/orders">Orders</a>
-                </li>
-                <li class="mobile-nav__item">
-                    <a class="<%= path === '/admin/add-product' ? 'active' : '' %>" href="/admin/add-product">Add Product
-                    </a>
-                </li>
-                <li class="mobile-nav__item">
-                    <a class="<%= path === '/admin/products' ? 'active' : '' %>" href="/admin/products">Admin Products
-                    </a>
-                </li>
-            </ul>
+    <ul class="mobile-nav__item-list">
+        <li class="mobile-nav__item">
+            <a class="<%= path === '/' ? 'active' : '' %>" href="/">Shop</a>
+        </li>
+        <li class="mobile-nav__item">
+            <a class="<%= path === '/about' ? 'active' : '' %>" href="/">About</a>
+        </li>
+        <li class="mobile-nav__item">
+            <a class="<%= path === '/products' ? 'active' : '' %>" href="/products">Products</a>
+        </li>
+        <li class="mobile-nav__item">
+            <a class="<%= path === '/cart' ? 'active' : '' %>" href="/cart">Cart</a>
+        </li>
+        <li class="mobile-nav__item">
+            <a class="<%= path === '/orders' ? 'active' : '' %>" href="/orders">Orders</a>
+        </li>
+        <li class="mobile-nav__item">
+            <a class="<%= path === '/contact' ? 'active' : '' %>" href="/contact">Contact</a>
+        </li>
+        <% if (isAuthenticated) { %>
+        <li class="mobile-nav__item">
+            <a class="<%= path === '/admin/add-product' ? 'active' : '' %>" href="/admin/add-product">Add Product</a>
+        </li>
+        <li class="mobile-nav__item">
+            <a class="<%= path === '/admin/products' ? 'active' : '' %>" href="/admin/products">Admin Products</a>
+        </li>
+        <% } %>
+        <% if (!isAuthenticated) { %>
+            <li class="mobile-nav__item">
+                <a class="<%= path === '/login' ? 'active' : '' %>" href="/login">Login</a>
+            </li>
+        <% } else { %>
+            <li class="mobile-nav__item">
+                <form action="/logout" method="post">
+                    <button type="submit">Logout</button>
+                </form>
+            </li>
+        <% } %>
+    </ul>
 </nav>

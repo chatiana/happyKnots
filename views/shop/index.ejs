@@ -3,9 +3,13 @@
 </head>
 
 <body>
-    <%- include('../includes/navigation.ejs') %>
+   <%- include('../includes/navigation.ejs') %>
 
     <main>
+        <div class="container1">
+            <h1>space reserved to add big image.</h1>
+        </div>
+        
         <% if (prods.length > 0) { %>
             <div class="grid">
                 <% for (let product of prods) { %>
@@ -18,12 +22,14 @@
                                 alt="<%= product.title %>">
                         </div>
                         <div class="card__content">
-                            <h2 class="product__price">€<%= product.price %></h2>
+                            <h2 class="product__price">$<%= product.price %></h2>
                             <p class="product__description"><%= product.description %></p>
                         </div>
                         <div class="card__actions">
-                            <a href="/products/<%= product._id %>" class="btn">Details</a>
-                            <%- include('../includes/add-to-cart.ejs', {product: product}) %>
+                                <a href="/products/<%= product._id %>" class="btn">Details</a>
+                                <% if (isAuthenticated) { %>
+                                    <%- include('../includes/add-to-cart.ejs', {product:product}) %>
+                                    <% } %>
                         </div>
                     </article>
                 <% } %>

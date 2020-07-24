@@ -1,0 +1,58 @@
+<%- include('../includes/head.ejs') %>
+    <link rel="stylesheet" href="/css/forms.css">
+    <link rel="stylesheet" href="/css/auth.css">
+</head>
+
+<body>
+   <%- include('../includes/navigation.ejs') %>
+
+    <main>
+        <div class="headpage">
+            <h1>Register</h1>
+        </div>
+        
+        <form class="login-form" action="/login" method="POST">
+            <p>Order quickly with your stored delivery details<br>
+                Keep track of your orders
+                </p>
+            <p>Already have an account? <a href="/login"> Login</a></p>
+
+       
+            <div class="form-control">
+                <label for="email">E-Mail</label>
+                <input type="email" name="email" id="email">
+            </div>
+           
+            <div class="form-control">
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password">
+            </div>
+            <div class="form-control">
+                <label for="password">Confirm Password</label>
+                <input type="password" name="password" id="password">
+            </div>
+            <div class="form-control">
+                <label for="name">Name</label>
+                <input type="text" name="name" id="name">
+            </div>
+            <div class="form-control">
+                <label for="lname">Last Name</label>
+                <input type="text" name="lname" id="lname">
+            </div>
+            <h2>Billing Address Details</h2>
+            <div class="form-control">
+                <label for="country">Country</label>
+                <input type="text" name="country" id="country">
+            </div>
+            <div class="form-control">
+                <label for="city">City</label>
+                <input type="text" name="city" id="city">
+            </div>
+            <div class="form-control">
+                <label for="address1">Address Line 1</label>
+                <input type="text" name="address1" id="address1">
+            </div>
+            <button class="btn" type="submit">Register</button>
+        </form>
+    </main>
+<%- include('../includes/end.ejs') %>
