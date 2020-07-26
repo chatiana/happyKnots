@@ -3,43 +3,61 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
-  name: {
-    type: String,
-    required: true
-  },
   email: {
     type: String,
     required: true
   },
+  password: {
+    type: String,
+    required: true
+  },
+  resetToken: String,
+  resetTokenExpiration: Date,
+
+  /*rconfirmPassword: {
+    type: String,
+    equired: true
+  },
+  name: {
+    type: String,
+    required: true
+  },
+  lname: {
+    type: String,
+    required: true
+  },
+  phone: {
+    type: Number,
+    /*required: true
+  },*/
   cart: {
-    items: [{
-      productId: { type: Schema.Types.ObjectId, ref: 'Product', required: true }, //User cart item will be referencing ProductSchema
-      quantity: { type: Number, required: true },
-      price: { type: Number /* , ref: 'Product'/*,required: true*/ },
-      //priceTotal: { type: Number }
-    }]
+    items: [
+      {
+        productId: {
+          type: Schema.Types.ObjectId,  //User cart item will be referencing ProductSchema
+          ref: 'Product',
+          required: true
+        },
+        quantity: { type: Number, required: true }
+      }
+    ]
   }
 });
 
-userSchema.methods.addToCart = function (product) {
+userSchema.methods.addToCart = function(product) {
   const cartProductIndex = this.cart.items.findIndex(cp => {
     return cp.productId.toString() === product._id.toString();
   });
   let newQuantity = 1;
-  let newPrice;
   const updatedCartItems = [...this.cart.items];
 
   if (cartProductIndex >= 0) {
     newQuantity = this.cart.items[cartProductIndex].quantity + 1;
     updatedCartItems[cartProductIndex].quantity = newQuantity;
-    
-
   } else {
     updatedCartItems.push({
       productId: product._id,
-      quantity: newQuantity,
-      price: newPrice,
-     // priceTotal: newPriceTotal
+      quantity: newQuantity
     });
   }
   const updatedCart = {
@@ -49,23 +67,20 @@ userSchema.methods.addToCart = function (product) {
   return this.save();
 };
 //schema to remove items from cart
-userSchema.methods.removeFromCart = function (productId) {
-   const updatedCartItems = this.cart.items.filter (item => { //vanilla js(filter)
-     return item.productId.toString() !== productId.toString(); //True to keep Falso to remove it
-   });
-   this.cart.items = updatedCartItems;
-   return this.save();
+userSchema.methods.removeFromCart = function(productId) {
+  const updatedCartItems = this.cart.items.filter(item => { //vanilla js(filter)
+    return item.productId.toString() !== productId.toString(); //True to keep Falso to remove it
+  });
+  this.cart.items = updatedCartItems;
+  return this.save();
+};
+//schema to remove cart once order was placed
+userSchema.methods.clearCart = function() {
+  this.cart = { items: [] };
+  return this.save();
 };
 
-//schema to remove cart once order was placed
-userSchema.methods.clearCart = function () {
-  this.cart = {items: [] };
-  return this.save();
-}
-
 module.exports = mongoose.model('User', userSchema);
-
-
 
 // const mongodb = require('mongodb');
 // const getDb = require('../util/database').getDb; //call fx to get access to db

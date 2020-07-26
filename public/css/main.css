@@ -276,6 +276,21 @@ text-decoration: none;
   background: red;
   color: white;
 }
+
+.user-message{
+  margin: auto;
+  width: 90%;
+  border:1px solid;
+  padding: 0.5rem;
+  border-radius: 3px;
+  background: lightblue;
+  text-align: center;
+  color:rgb(74, 74, 238);
+}
+.user-message--error{
+  background: rgb(231, 172, 172);
+  color: rgb(104, 13, 13);
+}
 /*Responsive cards*/
 @media (min-width: 768px) {
   .main-header__nav {
@@ -283,6 +298,9 @@ text-decoration: none;
   }
   #side-menu-toggle {
     display: none;
+  }
+  .user-message{
+    width: 30rem;
   }
 }
 

@@ -7,8 +7,7 @@
         <ul class="user-menu">
 
             <% if (!isAuthenticated) { %>
-            <li><a href="/userdash"><i class="fas fa-user"></i></a></li>
-            <li><a class="<%= path === '/login' ? 'active' : '' %>" href="/login">Login</a> </li>
+            <li><a class="<%= path === '/login' ? 'active' : '' %>" href="/login"><i class="fas fa-user"></i>   Login</a> </li>
             <% } else { %>
             <li><a href="/userdash"><i class="fas fa-user"></i></a></li>
             <li class="main-header__item">
@@ -16,9 +15,10 @@
                     <button type="submit">Logout</button>
                 </form>
             </li>
-            <% } %>
             <li><a class="<%= path === '/orders' ? 'active' : '' %>" href="/cart"><i
-                        class="fas fa-shopping-cart"></i></a> </li>
+                class="fas fa-shopping-cart"></i></a> </li>
+            <% } %>
+       
             <li>Total: € 0.00</li>
         </ul>
     </div>
@@ -40,15 +40,18 @@
                 <a class="<%= path === '/products' ? 'active' : '' %>" href="/products">Products</a>
             </li>
             <li class="main-header__item">
+                <a class="<%= path === '/contact' ? 'active' : '' %>" href="/contact">Contact</a>
+            </li>
+
+            
+           
+            <% if (isAuthenticated) { %>
+                <li class="main-header__item">
                 <a class="<%= path === '/cart' ? 'active' : '' %>" href="/cart">Cart</a>
             </li>
             <li class="main-header__item">
                 <a class="<%= path === '/orders' ? 'active' : '' %>" href="/orders">Orders</a>
             </li>
-            <li class="main-header__item">
-                <a class="<%= path === '/contact' ? 'active' : '' %>" href="/contact">Contact</a>
-            </li>
-            <% if (isAuthenticated) { %>
             <li class="main-header__item">
                 <a class="<%= path === '/admin/add-product' ? 'active' : '' %>" href="/admin/add-product">Add
                     Product</a>
@@ -96,6 +99,7 @@
         <% } else { %>
             <li class="mobile-nav__item">
                 <form action="/logout" method="post">
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                     <button type="submit">Logout</button>
                 </form>
             </li>

@@ -5,7 +5,8 @@ const bodyParser = require ('body-parser');
 const mongoose = require ('mongoose');
 const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
-
+const csrf = require ('csurf'); //CSRF
+const flash = require ('connect-flash');
 
 const errorController = require('./controllers/error')
 const User = require('./models/user');
@@ -16,8 +17,10 @@ const MONGODB_URI = 'mongodb+srv://user_1:niceday20@cluster0.mdz56.mongodb.net/s
 const app = express();
 const store = new MongoDBStore({  //constant:store , constructor:MongoDBStore
   uri: MONGODB_URI,
-  collection: 'sessions'
+  collection: 'sessions',
 });
+//CSRF
+const csrfProtection = csrf();
 
 //View Engine Setup
 app.set('view engine', 'ejs'); //hbs = handlebars , pug, ejs
@@ -30,25 +33,37 @@ const authRoutes = require('./routes/auth');
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(session({ secret: 'my secret', resave: false, saveUninitialized: false, store: store }) //session will not be saved in everyrequest.
+app.use(
+  session({
+    secret: 'my secret',
+    resave: false,
+    saveUninitialized: false,
+    store: store
+  })
 );
+//CSRF
+app.use(csrfProtection);
+
+//Connect-flash
+app.use(flash());
 
 //find user with Id
-app.use((req, res, next) => {  //to pass these data to all of the rendered views
-  if (!req.session.user) { //if no user store to a session, next. will only run if we have a session
+app.use((req, res, next) => {
+  if (!req.session.user) {
     return next();
   }
-  User.findById(req.session.user._id) //findById provided by mangoose
-  .then(user => {
-    //console.log("DISPLAY USERCART", user.cart);
-   // if (!user.cart) {
-   //   console.log("No cart.");
-   //   user.cart = { items: [] };
-   // }
-     req.user = user; //storing mongoose model from session into req.user enables all mongoose model method to work
-     next();
-  })
-  .catch((err) => console.log(err));
+  User.findById(req.session.user._id)
+    .then(user => {
+      req.user = user;
+      next();
+    })
+    .catch(err => console.log(err));
+});
+//to pass these data to all of the rendered views
+app.use((req, res, next) => {
+  res.locals.isAuthenticated = req.session.isLoggedIn;
+  res.locals.csrfToken = req.csrfToken();
+  next();
 });
 
 //middleware
@@ -60,25 +75,10 @@ app.use(authRoutes);
 app.use(errorController.get404);
 
 mongoose
-  .connect(MONGODB_URI)
+  .connect(MONGODB_URI, { useNewUrlParser: true,  useUnifiedTopology: true })
   .then(result => {
-    User.findOne().then(user =>{
-      if(!user){
-        const user = new User({
-          name:'Tati',
-          email: 'tati@mail.com',
-          cart:{
-            items:[]
-          }
-        });
-        user.save();
-      }
-    });
-     app.listen(3000);
+    app.listen(3000);
   })
   .catch(err => {
     console.log(err);
   });
-
-
-
