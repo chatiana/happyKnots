@@ -1,15 +1,23 @@
 <%- include('../includes/head.ejs') %>
-    <link rel="stylesheet" href="/css/forms.css">
-    <link rel="stylesheet" href="/css/auth.css">
+<link rel="stylesheet" href="/css/forms.css">
+<link rel="stylesheet" href="/css/auth.css">
 </head>
 
 <body>
-   <%- include('../includes/navigation.ejs') %>
+    <%- include('../includes/navigation.ejs') %>
 
     <main>
-        <div class="headpage">
-            <h1>Login</h1>
+        <!--LEFT-COL-->
+        <div class="jumbotron text-center">
+            <h1>LOGIN</h1>
+          </div>
+
+        <% if (errorMessage) { %>
+        <div class="user-message user-message--error">
+            <%= errorMessage %>
         </div>
+        <% } %>
+
         <form class="login-form" action="/login" method="POST">
             <p>Welcome back! Please sign in to manage your account</p>
             <p>Don't have an account? <a href="/register"> Register</a></p>
@@ -21,7 +29,12 @@
                 <label for="password">Password</label>
                 <input type="password" name="password" id="password">
             </div>
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
             <button class="btn" type="submit">Login</button>
         </form>
+        <div class="centered">
+            <p>Forgot your Password? <a href="/reset">Reset Password</a> </p>
+        </div>
+        <!--RIGHT-COL-->
     </main>
-<%- include('../includes/end.ejs') %>
+    <%- include('../includes/end.ejs') %>
