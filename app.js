@@ -8,13 +8,13 @@ const MongoDBStore = require('connect-mongodb-session')(session);
 const csrf = require ('csurf'); //CSRF
 const flash = require ('connect-flash');
 const multer  = require('multer');
-
+require ('dotenv').config();
 
 const errorController = require('./controllers/error')
 const User = require('./models/user');
 
 //DB Connection
-const MONGODB_URI = 'mongodb+srv://user_1:niceday20@cluster0.mdz56.mongodb.net/shop’;
+const MONGODB_URI = 'mongodb+srv://user_1:niceday20@cluster0.mdz56.mongodb.net/shop';
 
 
 const app = express();
@@ -114,14 +114,14 @@ app.get('/error500',errorController.get500);
 app.use(errorController.get404);
 
 // error handling middleware with 4 arguments
-app.use((error, req, res, next) => {
+/* app.use((error, req, res, next) => {
   // res.redirect('/500');
     res.status(500).render('error500', {
     pageTitle: 'Error!',
     path: '/error500',
     isAuthenticated: req.session.isLoggedIn
   });
-});
+}); */
 
 mongoose
   .connect(MONGODB_URI, { useNewUrlParser: true,  useUnifiedTopology: true })
