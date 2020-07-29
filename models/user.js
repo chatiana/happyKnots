@@ -14,6 +14,14 @@ const userSchema = new Schema({
     type: String,
     required: true
   },
+  name: {
+    type: String,
+    required: true
+  },
+  lname: {
+    type: String,
+    required: true
+  },
   resetToken: String,
   resetTokenExpiration: Date,
  /* roles: {
@@ -27,14 +35,7 @@ const userSchema = new Schema({
     type: String,
     equired: true
   },
-  name: {
-    type: String,
-    required: true
-  },
-  lname: {
-    type: String,
-    required: true
-  },
+
   phone: {
     type: Number,
     /*required: true

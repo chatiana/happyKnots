@@ -16,7 +16,7 @@
                     <button type="submit">Logout</button>
                 </form>
             </li>
-            <li><a class="<%= path === '/orders' ? 'active' : '' %>" href="/cart"><i
+            <li><a class="<%= path === '/cart' ? 'active' : '' %>" href="/cart"><i
                 class="fas fa-shopping-cart"></i></a> </li>
             <% } %>
        
@@ -47,9 +47,7 @@
             
            
             <% if (isAuthenticated) { %>
-                <li class="main-header__item">
-                <a class="<%= path === '/cart' ? 'active' : '' %>" href="/cart">Cart</a>
-            </li>
+            
             <li class="main-header__item">
                 <a class="<%= path === '/orders' ? 'active' : '' %>" href="/orders">Orders</a>
             </li>

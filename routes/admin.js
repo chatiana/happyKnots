@@ -28,7 +28,6 @@ router.post(
         .isString()
         .isLength({ min: 4 })
         .trim(),
-      body('imageUrl').isURL(),
       body('price').isFloat(),
       body('description')
          .isString()
@@ -54,7 +53,6 @@ router.post('/edit-product',
     .isString()
     .isLength({ min: 4 })
     .trim(),
-  body('imageUrl').isURL(),
   body('price')
     .isFloat({ min: 0.0, max: 1000000.0 })
     .trim()
