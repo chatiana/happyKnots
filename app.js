@@ -114,14 +114,14 @@ app.get('/error500',errorController.get500);
 app.use(errorController.get404);
 
 // error handling middleware with 4 arguments
-/* app.use((error, req, res, next) => {
+app.use((error, req, res, next) => {
   // res.redirect('/500');
     res.status(500).render('error500', {
     pageTitle: 'Error!',
     path: '/error500',
     isAuthenticated: req.session.isLoggedIn
   });
-}); */
+}); 
 
 mongoose
   .connect(MONGODB_URI, { useNewUrlParser: true,  useUnifiedTopology: true })
