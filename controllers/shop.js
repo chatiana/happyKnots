@@ -1,6 +1,27 @@
 const Product = require('../models/product');
 const Order = require('../models/order');
 
+// ============================================
+//  Get HomePage
+// ============================================
+exports.getIndex = (req, res, next) => {
+  Product.find()
+    .then(products => {
+      res.render('shop/index', {
+        prods: products,
+        pageTitle: 'Home',
+        path: '/',
+      });
+    })
+    .catch(err => {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
+    });
+};
+// ============================================
+//  Get all product
+// ============================================
 exports.getProducts = (req, res, next) => {
   Product.find()
     .then(products => {
@@ -12,10 +33,14 @@ exports.getProducts = (req, res, next) => {
       });
     })
     .catch(err => {
-      console.log(err);
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
     });
 };
-
+// ============================================
+//  Get product for id
+// ============================================
 exports.getProduct = (req, res, next) => {
   const prodId = req.params.productId;
   Product.findById(prodId)
@@ -26,23 +51,17 @@ exports.getProduct = (req, res, next) => {
         path: '/products',
       });
     })
-    .catch(err => console.log(err));
-};
-
-exports.getIndex = (req, res, next) => {
-  Product.find()
-    .then(products => {
-      res.render('shop/index', {
-        prods: products,
-        pageTitle: 'Shop',
-        path: '/',
-      });
-    })
     .catch(err => {
-      console.log(err);
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
     });
 };
 
+
+// ============================================
+//  Get Cart
+// ============================================
 exports.getCart = (req, res, next) => {
   req.user
     .populate('cart.items.productId')
@@ -53,11 +72,20 @@ exports.getCart = (req, res, next) => {
         path: '/cart',
         pageTitle: 'Your Cart',
         products: products,
+        //totalXProduct: products.price * user.cart.quantity,
+			//	totalSum: pay,
       });
     })
-    .catch(err => console.log(err));
+    .catch(err => {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
+    });
 };
 
+// ============================================
+//  Get Post Cart
+// ============================================
 exports.postCart = (req, res, next) => {
   const prodId = req.body.productId;
   Product.findById(prodId)
@@ -67,9 +95,16 @@ exports.postCart = (req, res, next) => {
     .then(result => {
       console.log(result);
       res.redirect('/cart');
+    })
+    .catch(err => {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
     });
 };
-
+// ============================================
+//  Deleting product the cart
+// ============================================
 exports.postCartDeleteProduct = (req, res, next) => {
   const prodId = req.body.productId;
   req.user
@@ -77,7 +112,11 @@ exports.postCartDeleteProduct = (req, res, next) => {
     .then(result => {
       res.redirect('/cart');
     })
-    .catch(err => console.log(err));
+    .catch(err => {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
+    });
 };
 
 exports.postOrder = (req, res, next) => {
@@ -103,9 +142,16 @@ exports.postOrder = (req, res, next) => {
     .then(() => {
       res.redirect('/orders');
     })
-    .catch(err => console.log(err));
+    .catch(err => {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
+    });
 };
 
+// ============================================
+//  Get Orders per user
+// ============================================
 exports.getOrders = (req, res, next) => {
   Order.find({ 'user.userId': req.user._id })
     .then(orders => {
@@ -115,9 +161,16 @@ exports.getOrders = (req, res, next) => {
         orders: orders,
       });
     })
-    .catch(err => console.log(err));
+    .catch(err => {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
+    });
 };
 
+// ============================================
+//  Get About Page
+// ============================================  
   exports.getAbout = (req, res, next) => {
     console.log(req.session.isLoggedIn);
       res.render('shop/about', {
@@ -125,7 +178,10 @@ exports.getOrders = (req, res, next) => {
         pageTitle: 'About',
       });
     };
-  
+
+// ============================================
+//  Get Contact Page
+// ============================================  
     exports.getContact= (req, res, next) => {
       console.log(req.session.isLoggedIn);
         res.render('shop/contact', {
@@ -133,3 +189,16 @@ exports.getOrders = (req, res, next) => {
           pageTitle: 'Contact',
         });
       };
+
+
+// ============================================
+//  Get Checkout
+// ============================================
+
+
+// ============================================
+//  Get Invoice per order
+// ============================================
+
+
+
