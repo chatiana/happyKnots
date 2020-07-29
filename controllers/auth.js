@@ -6,11 +6,11 @@ const { validationResult } = require('express-validator/check')
 
 const User = require('../models/user');
 
+const { SEND_GRID_KEY } = require('../config');
+
 const transporter = nodemailer.createTransport(
   sendgridTransport({
-    auth: {
- 
-    }
+    auth: {  SEND_GRID_KEY }
   })
 );
 // ============================================
