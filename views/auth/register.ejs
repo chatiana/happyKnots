@@ -54,11 +54,17 @@
             </div>
             <div class="form-control">
                 <label for="name">Name</label>
-                <input type="text" name="name" id="name">
+                <input 
+                class="<%= validationErrors.find(e => e.param === 'name' ) ? 'invalid' : ' ' %>"
+                type="text" name="name" id="name"
+                value="<%= oldInput.name %>">
             </div>
             <div class="form-control">
                 <label for="lname">Last Name</label>
-                <input type="text" name="lname" id="lname">
+                <input 
+                class="<%= validationErrors.find(e => e.param === 'lname' ) ? 'invalid' : ' ' %>"
+                type="text" name="lname" id="lname"
+                value="<%= oldInput.lname %>">
             </div>
             <div class="form-control">
                 <label for="phone">Telephone</label>

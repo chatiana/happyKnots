@@ -9,10 +9,13 @@ const User = require('../models/user');
 const transporter = nodemailer.createTransport(
   sendgridTransport({
     auth: {
-     
+ 
     }
   })
 );
+// ============================================
+//  Get Login
+// ============================================
 exports.getLogin = (req, res, next) => {
   let message = req.flash('error');
   if (message.length > 0) {
@@ -31,7 +34,9 @@ exports.getLogin = (req, res, next) => {
     validationErrors: []
   });
 };
-
+// ============================================
+// GET Register (aka signin)
+// ============================================
 exports.getRegister = (req, res, next) => {
   let message = req.flash('error');
   if (message.length > 0) {
@@ -46,12 +51,16 @@ exports.getRegister = (req, res, next) => {
     oldInput:{
       email: '',
       password: '',
-      confirmPassword: ''
+      confirmPassword: '',
+      name: '',
+      lname: ''
     },
     validationErrors: []
   });
 };
-
+// ============================================
+//  POST Login
+// ============================================
 exports.postLogin = (req, res, next) => {
   const email = req.body.email;
   const password = req.body.password;
@@ -64,7 +73,7 @@ exports.postLogin = (req, res, next) => {
       errorMessage: errors.array()[0].msg,
       oldInput: {
         email: email,
-        password: password,
+        password: password
       },
       validationErrors: errors.array()
     });
@@ -78,7 +87,7 @@ exports.postLogin = (req, res, next) => {
           errorMessage: 'Your email or password is invalid.',
           oldInput: {
             email: email,
-            password: password,
+            password: password
           },
           validationErrors: []
         });
@@ -116,10 +125,14 @@ exports.postLogin = (req, res, next) => {
       return next(error);
     });
 };
-
+// ============================================
+//  POST Register
+// ============================================
 exports.postRegister = (req, res, next) => {
   const email = req.body.email;
   const password = req.body.password;
+  const name = req.body.name;
+  const lname = req.body.lname;
   //email validator
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -133,7 +146,9 @@ exports.postRegister = (req, res, next) => {
         oldInput: {
           email: email,
           password: password,
-          confirmPassword: req.body.confirmPassword
+          confirmPassword: req.body.confirmPassword,
+          name: name,
+          lname:lname
         },
         validationErrors: errors.array()
       });
@@ -144,6 +159,8 @@ exports.postRegister = (req, res, next) => {
       const user = new User({
         email: email,
         password: hashedPassword,
+        name: name,
+        lname: lname,
         cart: { items: [] }
       });
       return user.save();
@@ -163,14 +180,18 @@ exports.postRegister = (req, res, next) => {
       return next(error);
     });
 };
-
+// ============================================
+//  POST Logout
+// ============================================
 exports.postLogout = (req, res, next) => {
   req.session.destroy(err => {
     console.log(err);
     res.redirect('/');
   });
 };
-
+// ============================================
+//  GET Userdash
+// ============================================
 exports.getUserDash = (req, res, next) => {
   console.log(req.session.isLoggedIn);
   res.render('auth/userdash', {
@@ -179,7 +200,9 @@ exports.getUserDash = (req, res, next) => {
 
   });
 };
-
+// ============================================
+//  GET Reset password
+// ============================================
 exports.getReset = (req, res, next) => {
   let message = req.flash('error');
   if (message.length > 0) {
@@ -235,7 +258,9 @@ exports.postReset = (req, res, next) => {
       });
   });
 };
-
+// ============================================
+//  GET NewPassword Interface
+// ============================================
 exports.getNewPassword = (req, res, next) => {
   const token = req.params.token;
   User.findOne({ resetToken: token, resetTokenExpiration: { $gt: Date.now() } })
@@ -260,7 +285,9 @@ exports.getNewPassword = (req, res, next) => {
       return next(error);
     });
 };
-
+// ============================================
+//  POST New Password
+// ============================================
 exports.postNewPassword = (req, res, next) => {
   const newPassword = req.body.password;
   const userId = req.body.userId;

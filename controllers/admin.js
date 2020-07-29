@@ -28,21 +28,37 @@ exports.getAddProduct = (req, res, next) => {
   });
 };
 // ============================================
-//  Post new Product
+//  Post Add Product
 // ============================================
 exports.postAddProduct = (req, res, next) => {
   const title = req.body.title;
   const category = req.body.category;
-  const imageUrl = req.body.imageUrl;
+  const image = req.file;
   const price = req.body.price;
   const description = req.body.description;
+  if (!image) {  //if image is set. if not i want to return a response w/stat 422
+  return res.status(422).render('admin/edit-product', {
+    pageTitle: 'Add Product',
+    path: '/admin/add-product',
+    editing: false,
+    hasError: true,
+    product: {
+      title: title,
+      category: category,
+      price: price,
+      description: description
+    },
+    errorMessage: 'Attached file is not a valid image.',
+    validationErrors: []
+  });
+}
   const errors = validationResult(req);
 
   if (!errors.isEmpty()) {
     console.log(errors.array());
     return res.status(422).render('admin/edit-product', {
       pageTitle: 'Add Product',
-      path: '/admin/edit-product',
+      path: '/admin/add-product',
       editing: false,
       hasError: true,
       product: {
@@ -51,11 +67,14 @@ exports.postAddProduct = (req, res, next) => {
         imageUrl: imageUrl,
         price: price,
         description: description
-      },
+       },
       errorMessage: errors.array()[0].msg,
       validationErrors: errors.array()
     });
   }
+  //files are not stored in the DB, but in a fole system
+  const imageUrl = image.path; //will store the path of the image
+
   const product = new Product({
    // _id: new mongoose.Types.ObjectId('5f1f08b551942d8057fba085'),
     title: title,
@@ -124,13 +143,13 @@ exports.getEditProduct = (req, res, next) => {
     });
 };
 // ============================================
-//  Post edit Product
+//  Post Edit Product
 // ============================================
 exports.postEditProduct = (req, res, next) => {
   const prodId = req.body.productId;
   const updatedTitle = req.body.title;
   const updatedCategory = req.body.category;
-  const updatedImageUrl = req.body.imageUrl;
+  const image = req.file; //file extracted by malter
   const updatedPrice = req.body.price;
   const updatedDesc = req.body.description;
 
@@ -145,7 +164,6 @@ exports.postEditProduct = (req, res, next) => {
       product: {
         title: updatedTitle,
         category: updatedCategory,
-        imageUrl: updatedImageUrl,
         price: updatedPrice,
         description: updatedDesc,
         _id: prodId
@@ -161,9 +179,11 @@ exports.postEditProduct = (req, res, next) => {
       }
       product.title = updatedTitle;
       product.category= updatedCategory;
-      product.imageUrl = updatedImageUrl;
       product.price = updatedPrice;
       product.description = updatedDesc;
+      if (image) {
+        product.imageUrl =  image.path;
+      }
       return product.save().then(result => {
         console.log('UPDATED PRODUCT!');
         res.redirect('/admin/products');
