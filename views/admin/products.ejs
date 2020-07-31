@@ -6,6 +6,9 @@
         <%- include('../includes/navigation.ejs') %>
 
             <main>
+                <div class="allheader text-center">
+                    <h1 id="headertext">Add/Edit New Product</h1>
+                  </div>
                 <% if (prods.length > 0) { %>
                     <div class="grid">
                         <% for (let product of prods) { %>
@@ -31,7 +34,7 @@
                                     <form action="/admin/delete-product" method="POST">
                                         <input type="hidden" value="<%= product._id %>" name="productId">
                                         <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                                        <button class="btn" type="submit">Delete</button>
+                                        <button class="btn btn-primary" type="submit">Delete</button>
                                     </form>
 
                                 </div>

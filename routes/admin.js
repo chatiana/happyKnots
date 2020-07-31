@@ -15,6 +15,7 @@ router.get('/add-product', isAuth, adminController.getAddProduct);
 // /admin/product => GET
 router.get('/products', isAuth, adminController.getProducts);
 router.get('/admindash', isAuth, adminController.getAdminDash);
+router.get('/users', isAuth, adminController.getUsers);
 
 // /admin/add-product => POST
 router.post(
@@ -41,12 +42,14 @@ router.post(
 // /admin/edit-product => GET
 router.get('/edit-product/:productId/', isAuth, adminController.getEditProduct);
 
+
+
 // /admin/edit-product => POST
 router.post('/edit-product',
 [
   body('title')
     .isString()
-    .isLength({ min: 5, max: 20 })
+    .isLength({ min: 5, max: 60 })
     .trim()
     .withMessage('Title must be at least 5 chars and max 20 chars'),
   body('category')

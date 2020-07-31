@@ -1,27 +1,23 @@
 <div class="backdrop"></div>
 <div class="main-header__top">
     <div class="logo">
-        <p>Happy Knots</p>
+        <a href="/" ><img class="logoimg" src="/img/happyknotslogo2.png" alt="logo1"></a>
     </div>
     <div class="top-right">
         <ul class="user-menu">
-
             <% if (!isAuthenticated) { %>
             <li><a class="<%= path === '/login' ? 'active' : '' %>" href="/login"><i class="fas fa-user"></i>   Login</a> </li>
             <% } else { %>
             <li><a href="/userdash"><i class="fas fa-user"></i></a></li>
-            <li class="main-header__item">
-                <form action="/logout" method="post">
-                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                    <button type="submit">Logout</button>
-                </form>
-            </li>
             <li><a class="<%= path === '/cart' ? 'active' : '' %>" href="/cart"><i
-                class="fas fa-shopping-cart"></i></a> </li>
+                class="fas fa-shopping-cart"></i><span class="badge badge-light">0</span></a> </li>
             <% } %>
-       
             <li>Total: € 0.00</li>
         </ul>
+        <ul class="admin-menu">
+            <li><a class="adminicon" href="/admin/admindash">Admin</a></li>
+        </ul>
+        
     </div>
 </div>
 <header class="main-header">
@@ -45,7 +41,7 @@
             </li>
 
             
-           
+      <!--      
             <% if (isAuthenticated) { %>
             
             <li class="main-header__item">
@@ -58,7 +54,7 @@
             <li class="main-header__item">
                 <a class="<%= path === '/admin/products' ? 'active' : '' %>" href="/admin/products">Admin Products</a>
             </li>
-            <% } %>
+            <% } %> -->
         </ul>
     </nav>
 </header>
@@ -83,18 +79,23 @@
         <li class="mobile-nav__item">
             <a class="<%= path === '/contact' ? 'active' : '' %>" href="/contact">Contact</a>
         </li>
-        <% if (isAuthenticated) { %>
+       <% if (isAuthenticated) { %>
+           <li class="mobile-nav__item"><a class="adminicon" href="/admin/admindash">Admin</a></li>
+ <!-- 
         <li class="mobile-nav__item">
             <a class="<%= path === '/admin/add-product' ? 'active' : '' %>" href="/admin/add-product">Add Product</a>
         </li>
         <li class="mobile-nav__item">
             <a class="<%= path === '/admin/products' ? 'active' : '' %>" href="/admin/products">Admin Products</a>
         </li>
-        <% } %>
+        <% } %> -->
         <% if (!isAuthenticated) { %>
             <li class="mobile-nav__item">
                 <a class="<%= path === '/login' ? 'active' : '' %>" href="/login">Login</a>
             </li>
+           
+             
+        
         <% } else { %>
             <li class="mobile-nav__item">
                 <form action="/logout" method="post">

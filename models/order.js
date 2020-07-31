@@ -6,9 +6,12 @@ const orderSchema = new Schema({
   products: [ //array of documents
     {
       product: { type: Object, required: true },
-      quantity: { type: Number, required: true }
+      quantity: { type: Number},
     }
   ],
+  totalOrder: {
+      type: Number,
+    },
   user: {
     email: {
       type: String,

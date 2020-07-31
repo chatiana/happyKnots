@@ -9,11 +9,8 @@ const User = require('../models/user');
 const router = express.Router();
 
 router.get('/userdash', authController.getUserDash);
-
 router.get('/login', authController.getLogin);
-
 router.get('/register', authController.getRegister);
-
 router.get('/reset', authController.getReset);
 router.get('/reset/:token', authController.getNewPassword);
 

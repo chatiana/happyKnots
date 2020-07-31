@@ -8,14 +8,43 @@
 
     <main>
         <!--LEFT-COL-->
-        <div class="jumbotron text-center">
-            <h1>LOGIN</h1>
+        <div class="allheader">
+            <h1>Login</h1>
           </div>
 
         <% if (errorMessage) { %>
         <div class="user-message user-message--error"><%= errorMessage %></div>
         <% } %>
+        <form class="login-form" action="/login" method="POST">
+            <div class="centered">
+            <p>Don't have an account? <a href="/register"> Register</a></p>
+            </div>
+            <div class="form-group ">
+              <label for="email">Email address</label>
+              <input 
+              class=" form-control <%= validationErrors.find(e => e.param === 'email') ? 'invalid' : '' %>"
+              type="email" 
+              name="email" 
+              id="email" 
+              value="<%= oldInput.email %>">
+            </div>
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input 
+              class="form-control<%= validationErrors.find(e => e.param === 'password') ? 'invalid' : '' %>"
+              type="password" 
+              name="password"
+              id="password" value="<%= oldInput.password %>">
+            </div>
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <button type="submit" class="btn btn-primary">Login</button>
+          </form>
+          <div class="centered">
+            <p>Forgot your Password? <a href="/reset">Reset Password</a> </p>
+        </div>
 
+
+<!-- 
         <form class="login-form" action="/login" method="POST">
             <p>Welcome back! Please sign in to manage your account</p>
             <p>Don't have an account? <a href="/register"> Register</a></p>
@@ -43,6 +72,7 @@
         <div class="centered">
             <p>Forgot your Password? <a href="/reset">Reset Password</a> </p>
         </div>
-        <!--RIGHT-COL-->
+        
+ -->
     </main>
     <%- include('../includes/end.ejs') %>

@@ -217,6 +217,10 @@ exports.getReset = (req, res, next) => {
     errorMessage: message
   });
 };
+
+// ============================================
+//  POST Reset password
+// ============================================
 exports.postReset = (req, res, next) => {
   crypto.randomBytes(32, (err, buffer) => {
     if (err) {
@@ -229,9 +233,17 @@ exports.postReset = (req, res, next) => {
       .then(user => {
         // - if we didn't find a user.
         if (!user) {
-          req.flash('error', 'No account with that email found.');
-          return res.redirect('/reset');
-        }
+					return res.status(422).render('auth/reset', {
+						path: '/reset',
+						pageTitle: 'Reset Password',
+						errorMessage: 'Unregistered mail, please enter a different one',
+						oldInput: {
+							email: req.body.email,
+						},
+						validationErrors: [],
+					});
+				}
+
         // + if we did found a user.
         user.resetToken = token;
         user.resetTokenExpiration = Date.now() + 3600000; // expiration date set to date now + 1 hour.

@@ -49,10 +49,10 @@ const userSchema = new Schema({
           required: true
         },
         quantity: { type: Number, required: true },
-       // totalPay: { type: Number },
+        //totalPay: { type: Number },
       },
     ],
-   // pay: { type: Number },
+    //pay: { type: Number },
   }
 });
 // ============================================
@@ -63,30 +63,33 @@ userSchema.methods.addToCart = function(product) {
     return cp.productId.toString() === product._id.toString();
   });
   let newQuantity = 1;
+  //let newPrice = product.price;
+
   const updatedCartItems = [...this.cart.items];
 
   if (cartProductIndex >= 0) {
-    newQuantity = this.cart.items[cartProductIndex].quantity + 1;
-    updatedCartItems[cartProductIndex].quantity = newQuantity;
-    /* newPrice =
-			Number(this.cart.items[cartProductIndex].totalPay) +
-			Number(product.price);
-		updatedCartItems[cartProductIndex].totalPay = newPrice; */
+      newQuantity = this.cart.items[cartProductIndex].quantity + 1;
+      updatedCartItems[cartProductIndex].quantity = newQuantity;
+
+    // newPrice =
+     //   Number(this.cart.items[cartProductIndex].totalPay) +
+     //   Number(product.price);
+     // updatedCartItems[cartProductIndex].totalPay = newPrice; 
   } else {
     updatedCartItems.push({
       productId: product._id,
       title: product.title,
-      quantity: newQuantity,
-     // totalPay: newPrice,
+      quantity: newQuantity
+    // totalPay: newPrice,
     });
   }
-/*   let pay = 0;
-	updatedCartItems.forEach((product) => {
-		pay = Number(pay) + Number(product.totalPay);
-  }); */
+//let pay = 0;
+	//updatedCartItems.forEach((product) => {
+	//	pay = Number(pay) + Number(product.totalPay);
+  //}); 
   
   const updatedCart = {
-    items: updatedCartItems,
+    items: updatedCartItems
    // pay: pay,
   };
   this.cart = updatedCart;
@@ -98,20 +101,18 @@ userSchema.methods.addToCart = function(product) {
 // ============================================  
 
 userSchema.methods.removeFromCart = function(productId) {
- // let pay = 0;
+  //let pay = 0;
   const updatedCartItems = this.cart.items.filter(item => { //vanilla js(filter)
     return item.productId.toString() !== productId.toString(); //True to keep Falso to remove it
   });
-  //updatedCartItems.forEach((product) => {
+  updatedCartItems.forEach((product) => {
 	//	pay = Number(pay) + Number(product.totalPay);
-//	});
-
-	//const updatedCart = {
-	//	items: updatedCartItems,
-	//	pay: pay,
-	//};
+	});
   this.cart.items = updatedCartItems;
   return this.save();
+//	const updatedCart = {
+	//	items: updatedCartItems,
+	//	pay: pay,
 };
 
 

@@ -7,7 +7,7 @@
    <%- include('../includes/navigation.ejs') %>
 
    <main>
-    <div class="jumbotron text-center">
+    <div class="allheader">
         <h1>Add/Edit New Product</h1>
       </div>
 
@@ -15,26 +15,35 @@
         <div class="user-message user-message--error"><%= errorMessage %></div>
     <% } %>
     <form class="product-form" action="/admin/<% if (editing) { %>edit-product<% } else { %>add-product<% } %>" method="POST" enctype="multipart/form-data">
-        <div class="form-control">
+        <div class="form-group">
             <label for="title">Title</label>
             <input 
-                class="<%= validationErrors.find(e => e.param === 'title') ? 'invalid' : '' %>"
+                class="form-control <%= validationErrors.find(e => e.param === 'title') ? 'invalid' : '' %>"
                 type="text" 
                 name="title" 
                 id="title" 
                 value="<% if (editing || hasError) { %><%= product.title %><% } %>">
         </div>
     
-            <div class="form-control">
-                <label for="title">Category</label>
+            <div class="form-group">
+                <label for="category">Category</label>
+                <!-- <select id="category" 
+                    class="form-control <%= validationErrors.find(e => e.param === 'category') ? 'invalid' : '' %>"
+                    value="<% if (editing || hasError) { %><%= product.category %><% } %>">
+                    <option selected>Choose...</option>
+                    <option>Plant Hangers</option>
+                    <option>Accesories</option>
+                    <option>Yarn</option>
+                    <option>Gifts</option>
+                </select> -->
                 <input 
-                    class="<%= validationErrors.find(e => e.param === 'category') ? 'invalid' : '' %>"
+                    class="form-control <%= validationErrors.find(e => e.param === 'category') ? 'invalid' : '' %>"
                     type="text" 
                     name="category" 
                     id="category" 
-                    value="<% if (editing || hasError) { %><%= product.category %><% } %>">
+                    value="<% if (editing || hasError) { %><%= product.category %><% } %>"> 
             </div>
-           <!-- <div class="form-control">
+     <!--   <div class="form-control">
                 <label for="title">Image URL</label>
                 <input 
                     class="<%= validationErrors.find(e => e.param === 'imageUrl') ? 'invalid' : '' %>"
@@ -43,27 +52,27 @@
                     id="imageUrl" 
                     value="<% if (editing || hasError) { %><%= product.imageUrl %><% } %>">
             </div>-->
-            <div class="form-control">
+            <div class="form-group">
                 <label for="image">Image </label>
                 <input 
                     type="file" 
                     name="image" 
                     id="image" >
             </div>
-            <div class="form-control">
+            <div class="form-group">
                 <label for="price">Price</label>
                 <input 
-                    class="<%= validationErrors.find(e => e.param === 'price') ? 'invalid' : '' %>"
+                    class="form-control <%= validationErrors.find(e => e.param === 'price') ? 'invalid' : '' %>"
                     type="number" 
                     name="price" 
                     id="price" 
                     step="0.01" 
                     value="<% if (editing || hasError ) { %><%= product.price %><% } %>">
             </div>
-            <div class="form-control">
+            <div class="form-group">
                 <label for="description">Description</label>
                 <textarea 
-                    class="<%= validationErrors.find(e => e.param === 'description') ? 'invalid' : '' %>"
+                    class="form-control <%= validationErrors.find(e => e.param === 'description') ? 'invalid' : '' %>"
                     name="description" 
                     id="description" 
                     rows="5"><% if (editing || hasError) { %><%= product.description %><% } %>
@@ -74,7 +83,13 @@
             <% } %>
 
             <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-            <button class="btn" type="submit"><% if (editing) { %>Update Product<% } else { %>Add Product<% } %></button>
+            <button class="btn btn-primary" type="submit"><% if (editing) { %>Update Product<% } else { %>Add Product<% } %></button>
+           
+            <form action="/admin/admindash" method="get">
+                     <button class="btn btn-primary" type="submit">Cancel</button>
+            </form>
+            
+
         </form>
     </main>
 <%- include('../includes/end.ejs') %>

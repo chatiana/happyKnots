@@ -7,6 +7,24 @@
    <%- include('../includes/navigation.ejs') %>
 
     <main>
+        <div class="allheader text-center">
+            <h1>Account Control</h1>
+          </div>
+
+        <div>
+            <ul>
+                <li>
+                    <form action="/logout" method="post">
+                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                        <button type="submit">Logout</button>
+                    </form>
+                </li>
+                </ul>
+        </div>
+      
+
+
+
         <ul>
             
             <li class=" ">

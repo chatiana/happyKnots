@@ -231,3 +231,13 @@ exports.postDeleteProduct = (req, res, next) => {
       return next(error);
       });
 };
+// ============================================
+//  Get Admin Users
+// ============================================
+exports.getUsers= (req, res, next) => {
+      console.log(req.session.isLoggedIn);
+      res.render('admin/users', {
+        pageTitle: 'Admin Users',
+        path: '/admin/users',
+      });
+};

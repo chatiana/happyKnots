@@ -12,12 +12,12 @@
             <div class="user-message user-message--error"><%= errorMessage %></div>
         <% } %>
         <form class="login-form" action="/reset" method="POST">
-            <div class="form-control">
+            <div class="form-group">
                 <label for="email">Enter the e-mail address associated with your account:</label>
-                <input type="email" name="email" id="email">
+                <input class="form-control" type="email" name="email" id="email">
             </div>
             <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-            <button class="btn" type="submit">Submit</button>
+            <button class="btn btn-primary" type="submit">Submit</button>
         </form>
     </main>
 <%- include('../includes/end.ejs') %>
