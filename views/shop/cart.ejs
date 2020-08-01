@@ -5,7 +5,9 @@
     <body>
         <%- include('../includes/navigation.ejs') %>
         <main>
-          
+            <div class="allheader text-center">
+                <h1>My cart</h1>
+           </div>
             
             <% if (products.length > 0) { %>
                 <table class="table">
@@ -61,22 +63,19 @@
                     <tr>
                         <td>   </td>
                         <td>   </td>
-                        <td><button type="button" class="btn btn-primary">
-                                <span class="glyphicon glyphicon-shopping-cart"></span> Continue Shopping
-                            </button>
+                        <td> <a class="btn btn-primary" href="/checkout">CHECKOUT</a>
                         </td>
-                        <td><button type="button" class="btn btn-primary">
-                                Checkout <span class="glyphicon glyphicon-play"></span>
-                            </button>
-                        </td>
+                      
                     </tr>
             </tbody>
                 </table>
             <div class="centered">
-             <form action="/create-order" method="POST">
+                <a class="btn btn-primary" href="/checkout">ORDER NOW NOW</a>
+
+         <!--     <form action="/create-order" method="POST">
                     <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                     <button type="submit" class="btn btn-primary">Order Now!</button>
-                </form> 
+                </form>  -->
             </div>
             <% } else { %>
                 <h1>No Products in Cart!</h1>
