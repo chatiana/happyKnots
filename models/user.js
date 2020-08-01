@@ -44,15 +44,13 @@ const userSchema = new Schema({
     items: [
       {
         productId: {
-          type: Schema.Types.ObjectId,  //User cart item will be referencing ProductSchema
+          type: Schema.Types.ObjectId,
           ref: 'Product',
           required: true
         },
-        quantity: { type: Number, required: true },
-        //totalPay: { type: Number },
-      },
-    ],
-    //pay: { type: Number },
+        quantity: { type: Number, required: true }
+      }
+    ]
   }
 });
 // ============================================
@@ -63,34 +61,19 @@ userSchema.methods.addToCart = function(product) {
     return cp.productId.toString() === product._id.toString();
   });
   let newQuantity = 1;
-  //let newPrice = product.price;
-
   const updatedCartItems = [...this.cart.items];
 
   if (cartProductIndex >= 0) {
-      newQuantity = this.cart.items[cartProductIndex].quantity + 1;
-      updatedCartItems[cartProductIndex].quantity = newQuantity;
-
-    // newPrice =
-     //   Number(this.cart.items[cartProductIndex].totalPay) +
-     //   Number(product.price);
-     // updatedCartItems[cartProductIndex].totalPay = newPrice; 
+    newQuantity = this.cart.items[cartProductIndex].quantity + 1;
+    updatedCartItems[cartProductIndex].quantity = newQuantity;
   } else {
     updatedCartItems.push({
       productId: product._id,
-      title: product.title,
       quantity: newQuantity
-    // totalPay: newPrice,
     });
   }
-//let pay = 0;
-	//updatedCartItems.forEach((product) => {
-	//	pay = Number(pay) + Number(product.totalPay);
-  //}); 
-  
   const updatedCart = {
     items: updatedCartItems
-   // pay: pay,
   };
   this.cart = updatedCart;
   return this.save();
@@ -101,18 +84,11 @@ userSchema.methods.addToCart = function(product) {
 // ============================================  
 
 userSchema.methods.removeFromCart = function(productId) {
-  //let pay = 0;
-  const updatedCartItems = this.cart.items.filter(item => { //vanilla js(filter)
-    return item.productId.toString() !== productId.toString(); //True to keep Falso to remove it
+  const updatedCartItems = this.cart.items.filter(item => {
+    return item.productId.toString() !== productId.toString();
   });
-  updatedCartItems.forEach((product) => {
-	//	pay = Number(pay) + Number(product.totalPay);
-	});
   this.cart.items = updatedCartItems;
   return this.save();
-//	const updatedCart = {
-	//	items: updatedCartItems,
-	//	pay: pay,
 };
 
 

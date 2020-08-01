@@ -11,6 +11,7 @@ const router = express.Router();
 router.get('/', shopController.getIndex);
 router.get('/about', shopController.getAbout);
 router.get('/contact', shopController.getContact);
+router.get('/tutorial', shopController.getTutorial);
 
 router.get('/products', shopController.getProducts);
 router.get('/products/:productId', shopController.getProduct); //Product Details
@@ -22,7 +23,7 @@ router.post('/cart-delete-item', isAuth, shopController.postCartDeleteProduct);
 router.post('/create-order',isAuth, shopController.postOrder);
 router.get('/orders', isAuth, shopController.getOrders);
 
-//router.get('/checkout', isAuth, shopController.getCheckout);
+router.get('/checkout', isAuth, shopController.getCheckout);
 //router.get('/checkout/success', isAuth, shopController.getCheckoutSuccess);
 
 

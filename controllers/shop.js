@@ -2,6 +2,8 @@ const Product = require('../models/product');
 const Order = require('../models/order');
 const { getUsers } = require('./admin');
 const user = require('../models/user');
+const fs = require('fs');
+const path = require('path');
 
 // ============================================
 //  Get HomePage
@@ -25,9 +27,10 @@ exports.getIndex = (req, res, next) => {
 //  Get all product
 // ============================================
 exports.getProducts = (req, res, next) => {
+ // let totalItems;
+
   Product.find()
     .then(products => {
-      console.log(products);
       res.render('shop/product-list', {
         prods: products,
         pageTitle: 'All Products',
@@ -73,7 +76,7 @@ exports.getCart = (req, res, next) => {
       res.render('shop/cart', {
         path: '/cart',
         pageTitle: 'Your Cart',
-        products: products,
+        products: products
       //  totalXProduct: products.price * user.cart.quantity,
 		//	totalSum: pay,
       });
@@ -162,8 +165,7 @@ exports.getOrders = (req, res, next) => {
       res.render('shop/orders', {
         path: '/orders',
         pageTitle: 'Your Orders',
-        orders: orders,
-       // totalAmount: total,
+        orders: orders
       });
     })
     .catch(err => {
@@ -195,51 +197,48 @@ exports.getOrders = (req, res, next) => {
         });
       };
 
+// ============================================
+//  Get Tutorial Page
+// ============================================  
+exports.getTutorial= (req, res, next) => {
+  console.log(req.session.isLoggedIn);
+    res.render('shop/tutorial', {
+      path: '/tutorial',
+      pageTitle: 'Tutorial',
+    });
+  };
 
-/* // ============================================
+
+// ============================================
 //  Get Checkout
 // ============================================
 exports.getCheckout = (req, res, next) => {
-	let products;
-	let pay = 0;
-	req.user
-		.populate('cart.items.productId')
-		.execPopulate()
-		.then((user) => {
-			products = user.cart.items;
-			pay = user.cart.pay;
-			return stripe.checkout.sessions.create({
-				payment_method_types: ['card'],
-				line_items: products.map((p) => {
-					return {
-						name: p.productId.title,
-						description: p.productId.description,
-						amount: p.productId.price * 100,
-						currency: 'usd',
-						quantity: p.quantity,
-					};
-				}),
-				success_url:
-					req.protocol + '://' + req.get('host') + '/checkout/success', // => http://localhost:3000
-				cancel_url: req.protocol + '://' + req.get('host') + '/checkout/cancel',
-			});
-		})
-		.then((session) => {
-			res.render('shop/checkout', {
-				path: '/checkout',
-				pageTitle: 'Your Checkout',
-				products: products,
-				totalSum: pay,
-				sessionId: session.id,
-			});
-		})
-		.catch((err) => {
-			const error = new Error(err);
-			error.httpStatusCode = 500;
-			return next(error);
-		});
+  req.user
+    .populate('cart.items.productId')
+    .execPopulate()
+    .then(user => {
+      const products = user.cart.items;
+      let total = 0;
+      products.forEach(p => {
+        total += p.quantity * p.productId.price;
+      });
+      res.render('shop/checkout', {
+        path: '/checkout',
+        pageTitle: 'Checkout',
+        products: products,
+        totalSum: total
+      });
+    })
+    .catch(err => {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
+    });
 };
-
+/* 
+// ============================================
+//  Get Checkout
+// ============================================
 exports.getCheckoutSuccess = (req, res, next) => {
 	req.user
 		.populate('cart.items.productId')

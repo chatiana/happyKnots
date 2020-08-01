@@ -129,4 +129,6 @@ mongoose
     app.listen(3000);
     console.log('http://localhost:3000');
   })
-  .catch( err =>  console.log ("error"));
+  .catch(err => {
+    console.log(err);
+  });

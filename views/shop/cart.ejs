@@ -5,39 +5,83 @@
     <body>
         <%- include('../includes/navigation.ejs') %>
         <main>
-            <div class="allheader text-center">
-                <h1>My cart</h1>
-            </div>
+          
+            
             <% if (products.length > 0) { %>
-            <ul class="cart__item-list">
-                <% products.forEach(p => { %>
-                <li class="cart__item">
-                    <h1><%= p.productId.title %> </h1>
-                    <p>Qty: <%= p.quantity %></p>
-                    <p>UnitPrice: <%= p.productId.price %></p>
-                    <form action="/cart-delete-item" method="POST">
-                        <input type="hidden" value="<%= p.productId._id %>" name="productId">
-                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                        <button class="btn danger" type="submit"> Delete </button>
-                    </form>
-                </li>
-                <% }) %>
-            </ul>
-            <div class="cart_pay">
-                <div class="cart__item_pay">
-                    <h3>Total Pay:  </h3>
-                </div>
-            </div >
-            <hr>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col"><h2>Product</h2></th>
+                            <th scope="col"><h2>Quantity</h2></th>
+                            <th scope="col"><h2>Unit Price</h2></th>
+                            <th scope="col"><h2>Subtotal</h2></th>
+                            <th> </th>
+                        </tr>
+                    </thead>
+                   
+                    <tbody>
+                
+                        <tr> 
+        <% products.forEach(p => { %>
+                            <th><%= p.productId.title %> </th>
+                            <th> <p><%= p.quantity %></p></th>  
+                            <th><p><%= p.productId.price %></p></th>   
+                            <th>56Eur</th>
+                            <th> 
+                                <form action="/cart-delete-item" method="POST">
+                                    <input type="hidden" value="<%= p.productId._id %>" name="productId">
+                                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                    <button class="btn danger" type="submit">Delete</button>
+                                </form>
+                            </th>       
+                        </tr>         
+           <% }) %>
+                    <tr>
+                        <td>   </td>
+                        <td>   </td>
+                        <td><h5>Subtotal</h5></td>
+                        <td><h5><strong>$24.59</strong></h5></td>
+                        <td>   </td>
+                    </tr>
+                    <tr>
+                        <td>   </td>
+                        <td>   </td>
+                         <td><h5>Estimated shipping</h5></td>
+                        <td ><h5><strong>$FREE</strong></h5></td>
+                        <td>   </td>
+                    </tr>
+                    <tr>
+                        <td>   </td>
+                        <td>   </td>
+                        <td><h3>Total</h3></td>
+                        <td><h3><strong>$31.53</strong></h3></td>
+                        <td>   </td>
+                    </tr>
+                    <tr></tr>
+                    <tr>
+                        <td>   </td>
+                        <td>   </td>
+                        <td><button type="button" class="btn btn-primary">
+                                <span class="glyphicon glyphicon-shopping-cart"></span> Continue Shopping
+                            </button>
+                        </td>
+                        <td><button type="button" class="btn btn-primary">
+                                Checkout <span class="glyphicon glyphicon-play"></span>
+                            </button>
+                        </td>
+                    </tr>
+            </tbody>
+                </table>
             <div class="centered">
-                <form action="/create-order" method="POST">
+             <form action="/create-order" method="POST">
                     <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                    <button type="submit" class="btn">Order Now!</button>
-                </form>
+                    <button type="submit" class="btn btn-primary">Order Now!</button>
+                </form> 
             </div>
             <% } else { %>
-                <p>There is currently no items in your basket.</p>
+                <h1>No Products in Cart!</h1>
             <% } %>
+
 
             
         </main>

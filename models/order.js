@@ -9,9 +9,9 @@ const orderSchema = new Schema({
       quantity: { type: Number},
     }
   ],
-  totalOrder: {
+/*   totalOrder: {
       type: Number,
-    },
+    }, */
   user: {
     email: {
       type: String,

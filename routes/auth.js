@@ -52,7 +52,7 @@ router.post(
         body('password',
             'Please enter a password with only numbers and text and at least 5 characters.'
         )
-            .isLength({ min: 5 })
+            .isLength({ min: 4 })
             .isAlphanumeric()
             .trim(),
         body('confirmPassword')
