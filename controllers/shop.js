@@ -4,6 +4,8 @@ const { getUsers } = require('./admin');
 const user = require('../models/user');
 const fs = require('fs');
 const path = require('path');
+const { STRIPE_KEY } = require('../config/config');
+const stripe = require('stripe')(STRIPE_KEY)
 
 // ============================================
 //  Get HomePage
@@ -77,8 +79,6 @@ exports.getCart = (req, res, next) => {
         path: '/cart',
         pageTitle: 'Your Cart',
         products: products
-      //  totalXProduct: products.price * user.cart.quantity,
-		//	totalSum: pay,
       });
     })
     .catch(err => {
@@ -213,20 +213,41 @@ exports.getTutorial= (req, res, next) => {
 //  Get Checkout
 // ============================================
 exports.getCheckout = (req, res, next) => {
+  let products;
+  let total = 0;
   req.user
     .populate('cart.items.productId')
     .execPopulate()
     .then(user => {
-      const products = user.cart.items;
-      let total = 0;
+      products = user.cart.items;
+      total = 0;
       products.forEach(p => {
         total += p.quantity * p.productId.price;
       });
+
+      return stripe.checkout.sessions.create({
+        payment_method_types: ['card'],
+        line_items: products.map(p => {
+          return {
+            name: p.productId.title,
+            description: p.productId.description,
+            amount: p.productId.price * 100,
+            currency: 'eur',
+            quantity: p.quantity
+          };
+        }),
+        //stripe will use below urls to redierct user after actions are completed from their end.
+        success_url: req.protocol + '://' + req.get('host') + '/checkout/success', // => http://localhost:3000
+        cancel_url: req.protocol + '://' + req.get('host') + '/checkout/cancel'
+      });
+    })
+    .then(session => {
       res.render('shop/checkout', {
         path: '/checkout',
         pageTitle: 'Checkout',
         products: products,
-        totalSum: total
+        totalSum: total,
+        sessionId: session.id
       });
     })
     .catch(err => {
@@ -235,7 +256,7 @@ exports.getCheckout = (req, res, next) => {
       return next(error);
     });
 };
-/* 
+
 // ============================================
 //  Get Checkout
 // ============================================
@@ -272,11 +293,7 @@ exports.getCheckoutSuccess = (req, res, next) => {
 			error.httpStatusCode = 500;
 			return next(error);
 		});
-}; */
-
-// ============================================
-//  Get Invoice per order
-// ============================================
+};
 
 
 
