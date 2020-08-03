@@ -1,11 +1,13 @@
 const crypto = require('crypto');
 const bcrypt = require('bcryptjs');
 const sgMail = require('@sendgrid/mail');
+const countries = require('../data/countries.json');
 require('dotenv').config();
 
 const { validationResult } = require('express-validator/check')
 
 const User = require('../models/user');
+const user = require('../models/user');
 
 const { SEND_GRID_KEY } = require('../config/config');
 
@@ -52,10 +54,43 @@ exports.getRegister = (req, res, next) => {
       password: '',
       confirmPassword: '',
       name: '',
-      lname: ''
+      lname: '',
+      address1:'',
+      address2:'',
+      countries: Object.keys(countries),
+			cities: countries
     },
     validationErrors: []
   });
+};
+// ============================================
+// GET Edit user
+// ============================================
+exports.getUserEdit = (req, res, next) => {
+	let message = req.flash('error');
+	if (message.length > 0) {
+		message = message[0];
+	} else {
+		message = null;
+	}
+	User.findById(req.session.user._id).then((user) => {
+		const { email, name, lname, address1, address2} = user;
+		res.render('auth/edit-user', {
+			path: '/user-edit',
+			pageTitle: 'Edit infos',
+			errorMessage: message,
+			oldInput: {
+				email,
+				name,
+        lname,
+        address1,
+        address2,
+				countries: Object.keys(countries),
+				cities: countries,
+			},
+			validationErrors: [],
+		});
+	});
 };
 // ============================================
 //  POST Login
@@ -78,30 +113,51 @@ exports.postLogin = (req, res, next) => {
     });
   }
   User.findOne({ email: email })
-    .then(user => {
-      if (!user) {
-        return res.status(422).render('auth/login', {
-          path: '/login',
-          pageTitle: 'Login',
-          errorMessage: 'Your email or password is invalid.',
-          oldInput: {
-            email: email,
-            password: password
-          },
-          validationErrors: []
-        });
-      }
+  .populate({
+    path: 'cart',
+    populate: {
+      path: 'items',
+      populate: {
+        path: 'productId',
+      },
+    },
+  })
+  .then((user) => {
+    if (!user) {
+      return res.status(422).render('auth/login', {
+        path: '/login',
+        pageTitle: 'Login',
+        errorMessage: 'Your email or password is invalid.',
+        oldInput: {
+          email: email,
+          password: password,
+        },
+        validationErrors: [],
+      });
+    }
       bcrypt
         .compare(password, user.password)
         .then(doMatch => {
           if (doMatch) {
             req.session.isLoggedIn = true;
             req.session.user = user;
-            return req.session.save(err => {
-              console.log(err);
-              res.redirect('/');
-            });
-          }
+            //logged top right display
+            const total = user.cart.items.reduce((accumulator, currentValue) => {
+              const {
+                quantity,
+                productId: { price },
+              } = currentValue;
+
+              return accumulator + quantity * price;
+            }, 0);
+            req.session.total = total;
+            req.session.items = user.cart.items.length;
+						return req.session.save((err) => {
+							console.log(err);
+							res.redirect('/');
+						});
+					}
+    
           return res.status(422).render('auth/login', {
             path: '/login',
             pageTitle: 'Login',
@@ -147,7 +203,8 @@ exports.postRegister = (req, res, next) => {
           password: password,
           confirmPassword: req.body.confirmPassword,
           name: name,
-          lname:lname
+          lname:lname,
+          countries: Object.keys(countries)
         },
         validationErrors: errors.array()
       });
@@ -159,8 +216,8 @@ exports.postRegister = (req, res, next) => {
       const user = new User({
         email: email,
         password: hashedPassword,
-        name: name,
-        lname: lname,
+      name: name,
+      lname: lname,
         cart: { items: [] }
       });
       return user.save();
@@ -182,6 +239,85 @@ exports.postRegister = (req, res, next) => {
     });
 };
 // ============================================
+//  POST User Edit Details
+// ============================================
+exports.postUserEdit = (req, res, next) => {
+	const {
+		body: { email, password, name, address1,
+      address2 //add fields
+  }} = req;
+  console.log(address2)
+	//email validator
+	const errors = validationResult(req);
+	if (!errors.isEmpty()) {
+		console.log(errors.array());
+		return res.status(422).render('auth/edit-user', {
+			path: '/user-edit',
+			pageTitle: 'Edit Account Details',
+			errorMessage: errors.array()[0].msg,
+			//object to render data back again due to error
+			oldInput: {
+				email: email,
+				password: password,
+				name: name,
+        lname: lname
+			},
+			validationErrors: errors.array(),
+		});
+  }
+  console.log('test')
+	// if no validation errors in the controller
+	if (password !== '') {
+		bcrypt
+			.hash(password, 12)
+			.then((hashedPassword) => {
+				return User.updateOne(
+					{ _id: req.session.user._id },
+					{
+						email: email,
+						password: hashedPassword,
+						name: name,
+           lname: lname,
+          address1: address1,
+          address2: address2,
+           // countries: countries
+						//add fields details here
+					}
+				);
+			})
+			.then(() => {
+				res.redirect('/');
+			})
+			.catch((err) => {
+				const error = new Error(err);
+				error.httpStatusCode = 500;
+				return next(error);
+			});
+	} else {
+		User.updateOne(
+			{ _id: req.session.user._id },
+			{
+				email: email,
+				name: name,
+       lname: lname,
+       address1: address1,
+          address2: address2,
+				//add fields here
+			}
+		)
+			.then(() => {
+        console.log('2')
+				res.redirect('/');
+			})
+			.catch((err) => {
+        console.log(err)
+				const error = new Error(err);
+				error.httpStatusCode = 500;
+				return next(error);
+			});
+	}
+};
+// ============================================
 //  POST Logout
 // ============================================
 exports.postLogout = (req, res, next) => {
@@ -197,8 +333,7 @@ exports.getUserDash = (req, res, next) => {
   console.log(req.session.isLoggedIn);
   res.render('auth/userdash', {
     path: '/userdash',
-    pageTitle: 'User Dash',
-
+    pageTitle: 'My Account',
   });
 };
 // ============================================

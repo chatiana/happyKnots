@@ -24,15 +24,17 @@
                 </thead>
 
                 <tbody>
+                  <% for(let i=0;i<users.length;i++) { %>
                   <tr>
-                    <th scope="row">1</th>
-                    <td>Mark Louis</td>
-                    <td>Otto@mail.om</td>
-                    <td>17/03/2020</td>
+                    <th scope="row"><%= users[i]._id %></th>
+                    <td><%= users[i].name %> <%= users[i].lname %></td>
+                    <td><%= users[i].email %></td>
+                    <td><%= users[i].date %></td>
                     <td> <form>
                       <button class="btn danger" type="submit"> Delete </button>
                   </form></td>
-                  </tr>         
+                  </tr>
+                <% } %>
                 </tbody>
               </table>
           </div>

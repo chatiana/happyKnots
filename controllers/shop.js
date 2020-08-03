@@ -1,9 +1,12 @@
 const Product = require('../models/product');
 const Order = require('../models/order');
+const getTimeStamp = require('../util/getTimeStamp');
 const { getUsers } = require('./admin');
-const user = require('../models/user');
+const User = require('../models/user');
+
 const fs = require('fs');
 const path = require('path');
+
 const { STRIPE_KEY } = require('../config/config');
 const stripe = require('stripe')(STRIPE_KEY)
 
@@ -29,8 +32,6 @@ exports.getIndex = (req, res, next) => {
 //  Get all product
 // ============================================
 exports.getProducts = (req, res, next) => {
- // let totalItems;
-
   Product.find()
     .then(products => {
       res.render('shop/product-list', {
@@ -92,36 +93,80 @@ exports.getCart = (req, res, next) => {
 //  Get Post Cart
 // ============================================
 exports.postCart = (req, res, next) => {
-  const prodId = req.body.productId;
-  Product.findById(prodId)
-    .then(product => {
-      return req.user.addToCart(product);
-    })
-    .then(result => {
-      console.log(result);
-      res.redirect('/cart');
-    })
-    .catch(err => {
-      const error = new Error(err);
-      error.httpStatusCode = 500;
-      return next(error);
-    });
+	const prodId = req.body.productId;
+	Product.findById(prodId)
+		.then((product) => {
+			return req.user.addToCart(product);
+		})
+		.then((result) => {
+			console.log(result);
+			User.findOne({ _id: req.session.user._id })
+				.populate({
+					path: 'cart',
+					populate: {
+						path: 'items',
+						populate: {
+							path: 'productId',
+						},
+					},
+				})
+				.then((user) => {
+					const total = user.cart.items.reduce((accumulator, currentValue) => {
+						const {
+							quantity,
+							productId: { price },
+						} = currentValue;
+
+						return accumulator + quantity * price;
+					}, 0);
+					req.session.total = total;
+					req.session.items = user.cart.items.length;
+					res.redirect('/cart');
+				});
+		})
+		.catch((err) => {
+			const error = new Error(err);
+			error.httpStatusCode = 500;
+			return next(error);
+		});
 };
 // ============================================
 //  Deleting product the cart
 // ============================================
 exports.postCartDeleteProduct = (req, res, next) => {
-  const prodId = req.body.productId;
-  req.user
-    .removeFromCart(prodId)
-    .then(result => {
-      res.redirect('/cart');
-    })
-    .catch(err => {
-      const error = new Error(err);
-      error.httpStatusCode = 500;
-      return next(error);
-    });
+	const prodId = req.body.productId;
+	req.user
+		.removeFromCart(prodId)
+		.then(() => {
+			User.findOne({ _id: req.session.user._id })
+				.populate({
+					path: 'cart',
+					populate: {
+						path: 'items',
+						populate: {
+							path: 'productId',
+						},
+					},
+				})
+				.then((user) => {
+					const total = user.cart.items.reduce((accumulator, currentValue) => {
+						const {
+							quantity,
+							productId: { price },
+						} = currentValue;
+
+						return accumulator + quantity * price;
+					}, 0);
+					req.session.total = total;
+					req.session.items = user.cart.items.length;
+					res.redirect('/cart');
+				});
+		})
+		.catch((err) => {
+			const error = new Error(err);
+			error.httpStatusCode = 500;
+			return next(error);
+		});
 };
 // ============================================
 //    POST product the cart
@@ -160,21 +205,59 @@ exports.postOrder = (req, res, next) => {
 //  Get Orders per user
 // ============================================
 exports.getOrders = (req, res, next) => {
-  Order.find({ 'user.userId': req.user._id })
-    .then(orders => {
-      res.render('shop/orders', {
-        path: '/orders',
-        pageTitle: 'Your Orders',
-        orders: orders
-      });
-    })
-    .catch(err => {
-      const error = new Error(err);
-      error.httpStatusCode = 500;
-      return next(error);
-    });
+	Order.find({ 'user.userId': req.session.user._id })
+		.then((orders) => {
+			res.render('shop/orders', {
+				path: '/orders',
+				pageTitle: 'Your Orders',
+				orders: orders,
+			});
+		})
+		.catch((err) => {
+			const error = new Error(err);
+			error.httpStatusCode = 500;
+			return next(error);
+		});
 };
-
+// ============================================
+//  Get ALL Orders
+// ============================================
+exports.getAllOrders = (req, res, next) => {
+	Order.find()
+		.then((orders) => {
+			const total = orders.reduce((accumulator, currentValue) => {
+				const totalOrder = currentValue.products.reduce(
+					(accumulatorProduct, currentValueProduct) => {
+						const {
+							quantity,
+							product: { price },
+						} = currentValueProduct;
+						const priceSum = price * quantity;
+						return accumulatorProduct + priceSum;
+					},
+					0
+				);
+				return accumulator + totalOrder;
+			}, 0);
+			orders = orders.map((order) => {
+				return {
+					...order._doc,
+					date: getTimeStamp(order._id.toString()),
+				};
+			});
+			res.render('shop/orders', {
+				path: '/orders/admin',
+				pageTitle: 'Users Orders',
+				orders: orders,
+				totalAmount: total,
+			});
+		})
+		.catch((err) => {
+			const error = new Error(err);
+			error.httpStatusCode = 500;
+			return next(error);
+		});
+};
 // ============================================
 //  Get About Page
 // ============================================  

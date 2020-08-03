@@ -14,12 +14,12 @@
 
 <!-- Control buttons -->
 <div id="myBtnContainer">
-    <button class="btn active" onclick="filterSelection('all')"> Show all</button>
-    <button class="btn" onclick="filterSelection('planthanger')"> Plant Hangers</button>
-    <button class="btn" onclick="filterSelection('macrame')"> Macrame</button>
-    <button class="btn" onclick="filterSelection('accessories')"> Accessories</button>
-    <button class="btn" onclick="filterSelection('gift')"> Gifts</button>
-  </div>
+  <button class="btn active" onclick="filterSelection('all')"> Show all</button>
+  <button class="btn" onclick="filterSelection('planthanger')"> Plant Hangers</button>
+  <button class="btn" onclick="filterSelection('macrame')"> Macrame</button>
+  <button class="btn" onclick="filterSelection('accessories')"> Accessories</button>
+  <button class="btn" onclick="filterSelection('gifts')"> Gifts</button>
+</div>
 
                 <div class="grid">
                     <% for (let product of prods) { %>
@@ -36,9 +36,7 @@
                                 <h2 class="product__price">€
                                     <%= product.price %>
                                 </h2>
-                             <!--   <p class="product__description">
-                                    <%= product.description %>
-                                </p>-->
+                        
                             </div>
                             <div class="card__actions">
                                 <a href="/products/<%= product._id %>" class="btn btn-primary">Details</a>
@@ -53,4 +51,26 @@
                     <h1>No Products Found!</h1>
                     <% } %>
         </main>
+        <script>
+            const types = ['planthanger','macrame','accessories', 'gifts']
+            function getElements(types, display) {
+              const classeNames = types.reduce((accumulator, currentValue) => {
+                const elems = document.getElementsByClassName(currentValue);
+                return accumulator.concat(...elems)
+              }, [])
+              classeNames.forEach(className => {
+                className.style.display = display;
+              })
+            }
+            function showAll() {
+              getElements(types, null);
+            }
+            function filterSelection(elem) {
+              showAll();
+              if(elem !== 'all') {
+                const hideTypes = types.filter(type => type !== elem);
+              getElements(hideTypes, 'none');
+              }
+            }
+          </script>
             <%- include('../includes/end.ejs') %>

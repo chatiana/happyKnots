@@ -4,8 +4,10 @@ const express = require('express');
 const { body } = require('express-validator/check');
 
 const adminController = require('../controllers/admin');
+const shopController = require('../controllers/shop');
 //middleware to protect routes
 const isAuth = require('../middleware/is-auth');  
+const isAdmin = require('../middleware/isAdmin');
 
 const router = express.Router();
 
@@ -14,8 +16,9 @@ router.get('/add-product', isAuth, adminController.getAddProduct);
 
 // /admin/product => GET
 router.get('/products', isAuth, adminController.getProducts);
-router.get('/admindash', isAuth, adminController.getAdminDash);
-router.get('/users', isAuth, adminController.getUsers);
+router.get('/admindash', isAuth, isAdmin, adminController.getAdminDash);
+router.get('/users', isAuth, isAdmin, adminController.getUsers);
+router.get('/orders', isAuth, isAdmin, shopController.getAllOrders);
 
 // /admin/add-product => POST
 router.post(

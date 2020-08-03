@@ -75,6 +75,14 @@ app.use(flash());
 
 app.use((req, res, next) => { //to pass these data to all of the rendered views
   res.locals.isAuthenticated = req.session.isLoggedIn;
+  if(req.session.user) {
+    res.locals.role = req.session.user.roles;
+    res.locals.name = req.session.user.name;
+  }
+  if(req.session.total) {
+    res.locals.total = req.session.total;
+    res.locals.items = req.session.items;
+  }
   res.locals.csrfToken = req.csrfToken();
   next();
 });

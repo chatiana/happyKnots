@@ -3,6 +3,8 @@ const fileHelper = require('../util/file');
 const { validationResult } = require('express-validator/check')
 
 const Product = require('../models/product');
+const User = require('../models/user');
+const getTimeStamp = require('../util/getTimeStamp');
 
 // ============================================
 //  Get Admin Dash
@@ -92,21 +94,6 @@ exports.postAddProduct = (req, res, next) => {
       res.redirect('/admin/products');
     })
     .catch(err => {
-      // return res.status(500).render('admin/edit-product', {
-      //   pageTitle: 'Add Product',
-      //   path: '/admin/add-product',
-      //   editing: false,
-      //   hasError: true,
-      //   product: {
-      //     title: title,
-      //     imageUrl: imageUrl,
-      //     price: price,
-      //     description: description
-      //   },
-      //   errorMessage: 'Database operation failed, please try again.',
-      //   validationErrors: []
-      // });
-      // res.redirect('/error500');
       const error = new Error(err);
       error.httpStatusCode = 500;
       return next(error);
@@ -236,27 +223,22 @@ exports.deleteProduct = (req, res, next) => {
       res.status(500).json({ message: 'Deleting product failed.' });
     });
 };
-/* exports.postDeleteProduct = (req, res, next) => {
-  const prodId = req.body.productId;
-  //delete the prod where id is equal to prd id but ALSO user id is equal to _id
-  Product.deleteOne({ _id: prodId, userId: req.user._id})
-    .then(() => {
-      console.log('DESTROYED PRODUCT');
-      res.redirect('/admin/products');
-    })
-    .catch(err => {
-      const error = new Error(err);
-      error.httpStatusCode = 500;
-      return next(error);
-      }); 
-};*/
+
 // ============================================
 //  Get Admin Users
 // ============================================
 exports.getUsers= (req, res, next) => {
-      console.log(req.session.isLoggedIn);
-      res.render('admin/users', {
-        pageTitle: 'Admin Users',
-        path: '/admin/users',
-      });
+  User.find().then(users => {
+    users = users.map(user => {
+      return {
+        ...user._doc,
+        date: getTimeStamp(user._id.toString())
+      }
+    })
+    res.render('admin/users', {
+      pageTitle: 'Admin Users',
+      path: '/admin/users',
+      users
+    });
+  })
 };

@@ -3,7 +3,7 @@ const express = require('express');
 const { check, body } = require('express-validator/check');//check package
 
 const authController = require('../controllers/auth');
-//middleware to protect routes
+
 const User = require('../models/user');
 
 const router = express.Router();
@@ -29,7 +29,7 @@ router.post(
     authController.postLogin
   );
 
-router.post(
+  router.post(
     '/register',
     [
         check('email')
@@ -55,6 +55,12 @@ router.post(
             .isLength({ min: 4 })
             .isAlphanumeric()
             .trim(),
+        body('name', 'Enter name min, 4 characters.')
+            .isLength({ min: 4})
+            .trim(),
+        body('lname', 'Enter a lastname min, 4 characters.')
+            .isLength({ min: 4})
+            .trim(),
         body('confirmPassword')
             .trim()
             .custom((value, { req }) => {
@@ -66,6 +72,8 @@ router.post(
     ],
     authController.postRegister
 );
+router.get('/auth/user-edit', authController.getUserEdit);
+router.post('/auth/user-edit', authController.postUserEdit);
 
 router.post('/logout', authController.postLogout);
 router.post('/reset', authController.postReset);

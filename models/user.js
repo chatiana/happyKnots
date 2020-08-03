@@ -22,24 +22,26 @@ const userSchema = new Schema({
     type: String,
     required: true
   },
+	roles: { //handle admin  role:admin is assigned manually in COMPASS
+		type: String,
+		enum: ['user', 'admin'],
+		required: true,
+		default: 'user',
+	},
+
+ address1: {
+    type: String,
+    //required: true
+  }, 
+  address2: {
+    type: String,
+    //required: true
+  }, 
+  
   resetToken: String,
   resetTokenExpiration: Date,
- /* roles: {
-    type: String,
-    enum: ['user', 'admin'],
-    required: true,
-    default: 'user'
-  },*/
 
-  /*rconfirmPassword: {
-    type: String,
-    equired: true
-  },
 
-  phone: {
-    type: Number,
-    /*required: true
-  },*/
   cart: {
     items: [
       {
@@ -48,7 +50,8 @@ const userSchema = new Schema({
           ref: 'Product',
           required: true
         },
-        quantity: { type: Number, required: true }
+        quantity: { type: Number, required: true },
+				totalPay: { type: Number },
       }
     ]
   }
@@ -87,6 +90,8 @@ userSchema.methods.removeFromCart = function(productId) {
   const updatedCartItems = this.cart.items.filter(item => {
     return item.productId.toString() !== productId.toString();
   });
+  updatedCartItems.forEach((product) => {
+	});
   this.cart.items = updatedCartItems;
   return this.save();
 };
