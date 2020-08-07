@@ -71,6 +71,9 @@ form {
   padding: 0;
   display: flex;
 }
+.main-header__item a:hover{
+  text-decoration: none;
+}
 
 .main-header__item {
   margin: 0 1rem;
@@ -98,18 +101,23 @@ form {
 color:#445925;
 text-decoration: none;
 }
+
 .admin-menu a{
 color:#445925;
 text-decoration: none;
 }
 .admin-menu {
 list-style: none;
-margin-right:0;
-  }
+margin-left: 10%;
+}
+
+
 
 .user-menu a:hover,
+.admin-menu a:hover,
 .main-header__item button:hover{
   color: #A77457;
+  text-decoration: none;
 }
 .main-header__item a ,
 .main-header__item button {
@@ -225,6 +233,7 @@ margin-right:0;
   flex-wrap: wrap;
   justify-content: space-around;
   align-items: stretch;
+  margin: 10%;
 }
 .youtube{
   width: 70%;
@@ -263,6 +272,11 @@ margin-right:0;
 .card__actions a {
   margin: 0 0.25rem;
 }
+.card__actions a:hover{
+  text-decoration: none;
+  background-color: #445925;
+  color:white;
+}
 /* Style the search box inside the navigation bar */
 .topnav input[type=text] {
   float: right;
@@ -272,21 +286,22 @@ margin-right:0;
   margin-right: 16px;
   font-size: 17px;
 }
-.btn.btn-primary.btn-lg{
+.btnhome{
   display: inline-block;
   padding: 0.25rem 1rem;
   text-decoration: none;
   font: inherit;
-  border: 1px solid #00695c;
-  color: #00695c;
+  border: 1px solid #445925;
+  color: #445925;
   background: white;
   border-radius: 3px;
   cursor: pointer;
 }
 
-.btn.btn-primary :hover,
-.btn.btn-primary :active {
+.btnhome:hover,
+.btnhome :active {
   background-color: #445925;
+  text-decoration: none;
   color: white;
 }
 .btn.danger {
@@ -363,19 +378,33 @@ footer{
 .carousel-inner{
   height: 100%;
 }
-
-.carousel-caption {
-margin-left:50%;
+.crsl-btn{
+  padding: 1rem 5rem;
+  background-color: #A77457;
+  color: white;
+  border-radius: 0.5rem;
 }
 .carousel-caption {
-  margin-left:50%;
-  }
-.carousel-caption h3, .carousel-caption p {
-	color: #fff;
-	display: inline-block;
+position: absolute;
+width: 50%;
+top:65%;
+margin-left:13%
+}
+
+.carousel-caption h3{
+  display: inline-block;
+  color: white;
   font-family: 'Special Elite', cursive;
 	text-shadow: none;
-	margin-bottom: 20px;
+  margin-bottom: 20px;
+  font-size: 3em;
+  background-color: black;
+  padding: 2rem;
+}
+.carousel-action a:hover{
+  text-decoration: none;
+  background-color: chocolate;
+  color: white;
 }
 .carousel-control-prev,
 .carousel-control-next{
@@ -383,23 +412,12 @@ margin-left:50%;
 }
 
 
-.carousel-caption h3 {
+/* .carousel-caption h3 {
 	background: rgba(0,0,0,0.9);
 	padding: 24px 100px;
 	font-size: 30px;	
 	text-transform: uppercase;
-}
-.carousel-caption p {
-	background: #dd8c19;
-	padding: 10px 20px;
-	font-size: 20px;
-	font-weight: 300;
-}
-.btn btn-outline-success{
-  padding:10px;
-  widows: 70px;
-}
-
+} */
 
 .container2{
   background-color: rgb(74, 74, 238);
@@ -493,3 +511,33 @@ margin-left:50%;
   padding: 30px 0;
   margin-bottom: 40%;
 }
+
+.btnuserdash{
+ border: 1px solid #445925;
+  color: #445925;
+  font-size: 21px;
+  border-radius: 0.5rem;
+ padding:10px;
+}
+.btnuserdash:hover{
+text-decoration: none;
+background-color: #445925;
+color: cornsilk;
+
+}
+.userdash li{
+  list-style: none;
+  padding-bottom: 5rem;
+}
+.usedashf button{
+  background-color: white;
+}
+
+.validationError{
+  text-align: left;
+  
+}
+.required{
+  color:red;
+}
+

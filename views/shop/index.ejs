@@ -15,24 +15,25 @@
                 <div class="carousel-caption d-none d-md-block">
                     <h3>MACRAME PLANT HANGERS</h3>
                     <div class="carousel-action">
-                        <a href="/products" class="btn btn-primary btn-lg">SHOP</a>
+                        <a href="/products" type="button" class="crsl-btn">SHOP</a>
                     </div>
                 </div>
               </div>
               <div class="carousel-item">
                 <img src="/img/cr3.png" class="d-block w-100" alt="2">
                 <div class="carousel-caption d-none d-md-block">
+                <br><br><br>
                     <div class="carousel-action">
-                        <a href="/products" class="btn btn-primary btn-lg">TUTORIAL</a>
+                        <a href="/products" type="button" class="crsl-btn">TUTORIAL</a>
                     </div>
                 </div>
               </div>
               <div class="carousel-item">
                 <img src="/img/cr2.png" class="d-block w-100" alt="3">
                 <div class="carousel-caption d-none d-md-block">
-                    <h3>HOME DECORATION</h3>
+                    <h3>CORDS AND ACCESSORIES</h3>
                     <div class="carousel-action">
-                        <a href="/products" class="btn btn-primary btn-lg">SHOP</a>
+                        <a href="/products" type="button" class="crsl-btn">SHOP</a>
                     </div>
                 </div>
               </div>
@@ -72,7 +73,7 @@
                             <h2 class="product__price">€<%= product.price %></h2>
                         </div>
                         <div class="card__actions">
-                                <a href="/products/<%= product._id %>" class="btn btn btn-outline-success">Details</a>
+                                <a href="/products/<%= product._id %>" class="btnhome">Details</a>
                                 <% if (isAuthenticated) { %>
                                     <%- include('../includes/add-to-cart.ejs', {product:product}) %>
                                     <% } %>

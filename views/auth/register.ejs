@@ -13,7 +13,7 @@
        
         <% if (validationErrors.length > 0) { %>
           <div class= "user-message user-message--error">
-            <ul>
+            <ul class="validationError">
            <% validationErrors.map(error => {          %>
 
             
@@ -23,14 +23,14 @@
         <form class="login-form" action="/register" method="POST" novalidate>
             <p>Order quickly with your stored delivery details<br>
                 Keep track of your orders
-                </p>
+                </p><br>
 
                 <div class="centered">
                     <p>Already have an account? <a href="/login"> Login</a></p>
-                    </div>
+                    </div><br>
        
             <div class="form-group ">
-                <label for="email">E-Mail</label>
+                <label for="email">E-Mail <span class="required">*</span></label>
                 <input 
                 class="form-control <%= validationErrors.find(e => e.param === 'email' ) ? 'invalid' : ' ' %>"
                 type="email" 
@@ -40,7 +40,7 @@
             </div>
            
             <div class="form-group">
-              <label for="password">Password</label>
+              <label for="password">Password <span class="required">*</span></label>
               <input 
               class="form-control <%= validationErrors.find(e => e.param === 'password' ) ? 'invalid' : ' ' %>"
               type="password" 
@@ -50,7 +50,7 @@
           </div>
 
           <div class="form-group">
-              <label for="confirmPassword">Confirm Password</label>
+              <label for="confirmPassword">Confirm Password <span class="required">*</span></label>
               <input 
               class="form-control <%= validationErrors.find(e => e.param === 'confirmPassword' ) ? 'invalid' : ' ' %>"
               type="password" 
@@ -59,14 +59,14 @@
               value="<%= oldInput.confirmPassword %>">
           </div>
           <div class="form-group">
-            <label for="name">Name</label>
+            <label for="name">Name <span class="required">*</span></label>
             <input 
             class="form-control <%= validationErrors.find(e => e.param === 'name' ) ? 'invalid' : ' ' %>"
             type="text" name="name" id="name"
             value="<%= oldInput.name %>">
         </div>
         <div class="form-group">
-            <label for="lname">Last Name</label>
+            <label for="lname">Last Name <span class="required">*</span></label>
             <input 
             class="form-control <%= validationErrors.find(e => e.param === 'lname' ) ? 'invalid' : ' ' %>"
             type="text" name="lname" id="lname"
@@ -105,6 +105,7 @@
             </div>
           <input type="hidden" name="_csrf" value="<%= csrfToken %>">
           <button class="btn btn-primary" type="submit">Register</button>
+          <p><span class="required">*</span>Required field </p>
       </form>
     </main>
     <script>

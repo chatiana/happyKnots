@@ -229,6 +229,7 @@ exports.postRegister = (req, res, next) => {
         from: 'x19153864@student.ncirl.ie',
         subject: 'Signup succeeded!',
         html: '<h1>You successfully signed up!</h1>',
+        templateId: 'd-24bce50c9ea743bf94f18f3212cc210a',
     };
     return sgMail.send(msg);
     })

@@ -5,8 +5,20 @@ Node version
 
 System dependencies (thrid party modules)
 
-Configuration
+# Configuration
 
-Database 
+## Quick Start
+You need to create a .env file and configure your database at first, then set up the database and start developing / testing.
 
-Deployment 
+## Install Dependencies
+Install all package dependencies (one time operation)
+```
+npm install
+```
+# Database 
+
+# Deployment 
+
+# Try it
+Make sure the database is running
+Open you're browser to http://localhost:3000
