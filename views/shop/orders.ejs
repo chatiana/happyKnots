@@ -5,27 +5,48 @@
     <body>
         <%- include('../includes/navigation.ejs') %>
         <main>
-            <h1>Your Order</h1>
+            <div class="allheader text-center">
+                <h1>Your Orders</h1>
+              </div>
+
+
             <% if (orders.length <= 0) { %>
                 <h1>Nothing there!</h1>
-            <% } else { %>
-                <ul class="orders">
+    <% } else { %>
+        <div class="userstable">
+            <table class="table">
+              
+                <thead>
+                  <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Order No.</th>
+                        <th scope="col">Items</th>
+                        <th scope="col">Date Created</th>
+                  </tr>
+                </thead>
+            
+
+                <tbody>
                     <% orders.forEach(order => { %>
-                        <li class="orders__item">
-                            <h1>Order - # <%= order._id %></h1>
-                            <ul class="orders__products">
-                                <% order.products.forEach(p => { %>
-                                    <li class="orders__products-item"><%= p.product.title %> (<%= p.quantity %>) = <%= p.product.price %> </li>
-                                <% }); %>
-                            </ul>
-                        </li>
-                    <% }); %>
-                </ul>
-             <!--    <div class="cart_pay">
-                    <div class="cart__item_pay">
-                        <h3>Total Pay:  </h3>
-                    </div>
-                </div > -->
-            <% } %>
+                  <tr>
+                   
+                    <td></td>
+                    <td><%= order._id %> </td>
+                    <td><ul class="orders__products">
+                        <% order.products.forEach(p => { %>
+                            <li class="orders__products-item"><%= p.product.title %> (Qty: <%= p.quantity %>) = <%= p.product.price %> Eur </li>
+                        <% }); %>
+                    </ul></td>
+                    <td></td>
+                   
+                  </tr>
+                  <% }); %>
+                </tbody>
+              </table>
+
+
+              <% } %>
+            </div>
+
         </main>
         <%- include('../includes/end.ejs') %>

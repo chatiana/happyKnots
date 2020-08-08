@@ -3,8 +3,10 @@
     </head>
 
     <body>
+     
         <%- include('../includes/navigation.ejs') %>
         <main>
+            <section>
             <div class="allheader text-center">
                 <h1>My cart</h1>
            </div>
@@ -57,26 +59,24 @@
                     <tr>
                         <td>   </td>
                         <td>   </td>
-                        <td>   </td>
-                        <td> <a class="btn btn-primary" href="/checkout">Checkout</a>
-                            <a href="/products" type="button" class="btn btn-primary">Back to Products</a>
+                        <td>  <a class="btnhome " href="/checkout">Checkout</a>  </td>
+                        <td> 
+                           
+                            <a class="btnhome" href="/products" type="button" >Back to Products</a>
                         </td>
                       
                     </tr>
             </tbody>
                 </table>
-            <div class="centered">
-                <a class="btn btn-primary" href="/checkout">ORDER NOW NOW</a>
-                <!-- <form action="/create-order" method="POST">
-                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                    <button type="submit" class="btn btn-primary">Order Now!</button>
-                </form>  -->
-            </div>
+           
             <% } else { %>
-                <h1>No Products in Cart!</h1>
+                <div class="empty centered">
+                    <h3>You have no products on your cart.</h3>
+                </div>
+              
             <% } %>
 
-
+</section>
             
         </main>
         <%- include('../includes/end.ejs') %>

@@ -8,7 +8,6 @@ body {
   padding: 0;
   margin: 0;
   font-family: 'Open Sans', sans-serif;
-
 }
 
 main {
@@ -237,7 +236,10 @@ margin-left: 10%;
 }
 .youtube{
   width: 70%;
-  
+  margin-left:15%
+}
+article{
+  margin-bottom: 50%;
 }
 .card {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
@@ -364,7 +366,6 @@ margin-left: 10%;
 footer{
   background-color: #FBF0E5;
   text-align: center;
-  /*position: fixed;*/
   left: 0;
   bottom: 0;
   width: 100%;
@@ -494,7 +495,9 @@ margin-left:13%
  .about{
    margin-bottom: 100px;
  }
-
+ section{
+  position:relative;
+}
 
  /*contact*/
  .concontainer {

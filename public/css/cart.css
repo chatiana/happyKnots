@@ -31,3 +31,19 @@
   
 }
 
+.btnhome:hover{
+  background-color: #445925;
+  text-decoration: none;
+  color: white;
+}
+.btnhome{
+  padding: 0.25rem 1rem;
+  text-decoration: none;
+  border: 1px solid #445925;
+  color: #445925;
+  background: white;
+  cursor: pointer;
+}
+.checkoutsection{
+  margin-bottom: 50%;
+}
