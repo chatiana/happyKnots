@@ -336,8 +336,19 @@ article{
 }
 /*Responsive cards*/
 
-/*Small devices (landscape phones, 576px and up)
-@media (min-width: 576px) { ... }*/
+/*Small devices (landscape phones, 576px and up)*/
+@media (max-width: 360px) { 
+  .user-menu a{
+    font-size: 15px;
+  }
+  .user-menu p{
+    font-size: 15px;
+    text-align: right;
+  }
+  .admin-menu{
+    font-size: 23px;
+  }
+ }
 
 /*Medium devices (tablets, 768px and up)*/
 @media (min-width: 768px) {
@@ -367,10 +378,10 @@ article{
     margin-top: 10%;;
   }
   .user-menu a{
-    font-size: 23px;
+    font-size: 20px;
   }
   .user-menu p{
-    font-size: 23px;
+    font-size: 20px;
     text-align: right;
   }
   .admin-menu{
@@ -590,3 +601,19 @@ color: cornsilk;
 .servererrors{
   margin-bottom: 50%;
 }
+
+
+.login-form a,
+.fpassword a{
+  color:chocolate;
+  }
+  .login-form a:hover,
+  .fpassword a:hover{
+      color:#445925;
+      text-decoration: none;
+      }
+
+
+      .reset{
+        margin-bottom: 40%;
+      }

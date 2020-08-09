@@ -362,14 +362,26 @@ exports.postReset = (req, res, next) => {
     if (err) {
       console.log(err);
       return res.redirect('/reset');
-    }
+/*       console.log(err);
+			return res.status(422).render('auth/reset', {
+				path: '/reset',
+				pageTitle: 'Reset Password',
+				errorMessage: 'Invalid email, please enter a different one',
+				oldInput: {
+					email: req.body.email,
+				},
+				validationErrors: [],
+			}); */
+		}
     // if no error occured, we can generate a token from the given buffer.
     const token = buffer.toString('hex');
     User.findOne({ email: req.body.email })
       .then(user => {
         // - if we didn't find a user.
         if (!user) {
-					return res.status(422).render('auth/reset', {
+          req.flash('error', 'No account with that email found.');
+          return res.redirect('/reset');
+     /*    return res.status(422).render('auth/reset', {
 						path: '/reset',
 						pageTitle: 'Reset Password',
 						errorMessage: 'Unregistered mail, please enter a different one',
@@ -377,7 +389,7 @@ exports.postReset = (req, res, next) => {
 							email: req.body.email,
 						},
 						validationErrors: [],
-					});
+					});  */
 				}
 
         // + if we did found a user.
@@ -400,9 +412,10 @@ exports.postReset = (req, res, next) => {
                 </p>
             `,
         };
-        return sgMail.send(resetMsg);
+        
+       return sgMail.send(resetMsg);
       })
-      .catch(err => {
+      .catch((err) => {
         const error = new Error(err);
         error.httpStatusCode = 500;
         return next(error);
@@ -427,7 +440,7 @@ exports.getNewPassword = (req, res, next) => {
         pageTitle: 'New Password',
         errorMessage: message,
         userId: user._id.toString(),
-        passwordToken: token
+        passwordToken: token,
       });
     })
     .catch(err => {

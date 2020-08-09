@@ -82,3 +82,18 @@
     color: white;
     border-color: #445925 ;
 }
+
+.need2log{
+    margin-top: 30px;;
+  }
+.need2log p{
+    margin:auto;
+    text-align: center;
+}
+.need2log a{
+color:chocolate;
+}
+.need2log a:hover{
+    color:#445925;
+    text-decoration: none;
+    }

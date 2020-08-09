@@ -17,6 +17,13 @@
                 <% if (isAuthenticated) { %>
                 <%- include('../includes/add-to-cart.ejs', {product:product}) %>
                 <% } %>
+
+
+                    <div class="need2log">
+                        <p>To add this item to your cart, please <a href="/login">Login</a> to your acount.<br>
+                        If you havent register yet. <a href="/register">Register</a> now!</p>
+                    </div>
+
             </div>
 
         </div>
