@@ -12,8 +12,8 @@
 			</li>
 			<% } else { %>
 			<li>	
-				<%= locals.name %>
-				<a href="/userdash"><i class="fas fa-user"></i></a>
+				
+				<a href="/userdash"><%= locals.name %>  <i class="fas fa-user"></i></a>
 			</li>
 			<li>
                 <a class="<%= path === '/cart' ? 'active' : '' %>" href="/cart">
@@ -23,13 +23,13 @@
                     </span></a>
 			</li>
 			<% } %>
-			<li>
-				Total: € <% if(locals.total) { %><%= locals.total.toFixed(2) %><%}else{%>0.00<%}%>
+			<li> 
+			<a>	Total: € <% if(locals.total) { %><%= locals.total.toFixed(2) %><%}else{%>0.00<%}%></a>
 			</li>
 		</ul>
 		<ul class="admin-menu">
 			<% if(locals.role && locals.role === 'admin') {%> <!--check if admin or not no undefined  then value-->
-			<li><a class="adminicon" href="/admin/admindash">Admin</a></li>
+			<li><a href="/admin/admindash">Admin</a></li>
 			<% } %>
 		</ul>
 	</div>

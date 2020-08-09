@@ -41,8 +41,7 @@ form {
 }
 .logo{
   font-family: 'Fredericka the Great', cursive;
-  font-size: 10px;
-  width: 50px;
+  
   margin: 20px;  
 }
 .logoimg{
@@ -100,14 +99,18 @@ form {
 color:#445925;
 text-decoration: none;
 }
-
+.user-menu {
+  font-size: 15px;
+}
 .admin-menu a{
 color:#445925;
 text-decoration: none;
+font-size: 15px;
 }
 .admin-menu {
 list-style: none;
-margin-left: 10%;
+margin-left: 70%;
+font-weight: bold;
 }
 
 
@@ -353,8 +356,25 @@ article{
   .main-header__nav {
     display: none;
   }
+  .main-header__top{
+    height: auto;
+  }
   .logoimg{
-    margin-top:4rem;
+    width: 100%;
+    height: 100%;
+    padding-top: 10%;
+    margin:auto;
+    margin-top: 10%;;
+  }
+  .user-menu a{
+    font-size: 23px;
+  }
+  .user-menu p{
+    font-size: 23px;
+    text-align: right;
+  }
+  .admin-menu{
+    font-size: 23px;
   }
 }
 
