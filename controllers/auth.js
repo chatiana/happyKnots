@@ -405,10 +405,10 @@ exports.postReset = (req, res, next) => {
             to: req.body.email,
             from: 'x19153864@student.ncirl.ie',
             subject: 'Password Reset',
-            html: `
-                <p>Your reseted password </p>
+            html: `        
+                <p>Your have requested to reset your password.</p>
                 <p>Click this <a href="http://localhost:3000/reset/${token}">Link</a>
-                    a <strong>other password</strong>
+                     to set a new password.
                 </p>
             `,
         };
