@@ -21,7 +21,7 @@
             <a class="btnuserdash" href="/orders">My Orders</a>
         </li>
         <li>
-            <form action="/logout" method="post">
+            <form class="userdashf" action="/logout" method="post">
                 <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                 <button class="btnuserdash" type="submit">Logout</button>
             </form>

@@ -30,15 +30,55 @@
     font-family: 'Special Elite', cursive;
    }
 
-
-   .product-details{
+.prdmain{
+    margin-bottom: 50%;
+   margin-top: 10%;
+   }
+.product-details{
      display: flex;
      flex-direction: row;
-     width: 100%;
-     margin:10%;
-     justify-content: space-between;
-   }
+    width: 85%;
+     justify-content: center;
+     margin: auto;
+}
 
+@media (max-width: 768px) {
+    .product-details{
+        display: flex;
+        flex-direction: column;
+    }
+  }
 .prd1 img{
-width: 80%;
+    width: 100%;
+}
+.prd2{
+    width: 100%;
+    padding-left: 10%;
+}
+.prd2 h2{
+    padding-top:2rem;
+    color:chocolate;
+}
+.prd2 p{
+    padding-top:2rem;
+}
+
+.btnhomep{
+    display: inline-block;
+    padding: 0.25rem 1rem;
+    text-decoration: none;
+    font: inherit;
+    border: 1px solid #445925;
+    color:#445925;
+    background: white;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.btnhomep:focus,
+.btnhomep:hover{
+    background-color: #445925;
+    text-decoration: none;
+    color: white;
+    border-color: #445925 ;
 }

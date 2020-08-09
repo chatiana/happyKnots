@@ -13,17 +13,17 @@
             <% if (prods.length > 0) { %>
 
 <!-- Control buttons -->
-<div class="centered" ßd="myBtnContainer">
-  <button class="btn active" onclick="filterSelection('all')"> Show all</button>
-  <button class="btn" onclick="filterSelection('planthanger')"> Plant Hangers</button>
-  <button class="btn" onclick="filterSelection('macrame')"> Macrame</button>
-  <button class="btn" onclick="filterSelection('accessories')"> Accessories</button>
-  <button class="btn" onclick="filterSelection('gifts')"> Gifts</button>
+<div class="centered" Id="myBtnContainer">
+  <button class="btnhomep btn-default active" onclick="filterSelection('all')"> Show all</button>
+  <button class="btnhomep" onclick="filterSelection('planthanger')"> Plant Hangers</button>
+  <button class="btnhomep" onclick="filterSelection('macrame')"> Macrame</button>
+  <button class="btnhomep" onclick="filterSelection('accessories')"> Accessories</button>
+  <button class="btnhomep" onclick="filterSelection('gifts')"> Gifts</button>
 </div>
 
                 <div class="grid">
                     <% for (let product of prods) { %>
-                        <article class="card product-item">
+                      <article class="card product-item <%= product.category %>">
                             <header class="card__header">
                                 <h1 class="product__title">
                                     <%= product.title %>
@@ -33,8 +33,7 @@
                                 <img src="/<%= product.imageUrl %>" alt="<%= product.title %>">
                             </div>
                             <div class="card__content">
-                                <h2 class="product__price">€
-                                    <%= product.price %>
+                                <h2 class="product__price">€<%= product.price %>
                                 </h2>
                         
                             </div>
@@ -52,25 +51,25 @@
                     <% } %>
         </main>
         <script>
-            const types = ['planthanger','macrame','accessories', 'gifts']
-            function getElements(types, display) {
-              const classeNames = types.reduce((accumulator, currentValue) => {
-                const elems = document.getElementsByClassName(currentValue);
-                return accumulator.concat(...elems)
-              }, [])
-              classeNames.forEach(className => {
-                className.style.display = display;
-              })
+          const types = ['planthanger','macrame','accessories', 'gifts']
+          function getElements(types, display) {
+            const classeNames = types.reduce((accumulator, currentValue) => {
+              const elems = document.getElementsByClassName(currentValue);
+              return accumulator.concat(...elems)
+            }, [])
+            classeNames.forEach(className => {
+              className.style.display = display;
+            })
+          }
+          function showAll() {
+            getElements(types, null);
+          }
+          function filterSelection(elem) {
+            showAll();
+            if(elem !== 'all') {
+              const hideTypes = types.filter(type => type !== elem);
+            getElements(hideTypes, 'none');
             }
-            function showAll() {
-              getElements(types, null);
-            }
-            function filterSelection(elem) {
-              showAll();
-              if(elem !== 'all') {
-                const hideTypes = types.filter(type => type !== elem);
-              getElements(hideTypes, 'none');
-              }
-            }
-          </script>
+          }
+        </script>
             <%- include('../includes/end.ejs') %>

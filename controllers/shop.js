@@ -307,11 +307,11 @@ exports.getCheckout = (req, res, next) => {
       products.forEach(p => {
         total += p.quantity * p.productId.price;
       });
-
+//this will create the session key and pass an onject
       return stripe.checkout.sessions.create({
         payment_method_types: ['card'],
         line_items: products.map(p => {
-          return {
+          return { //data that stripe needs
             name: p.productId.title,
             description: p.productId.description,
             amount: p.productId.price * 100,
@@ -348,14 +348,14 @@ exports.getCheckoutSuccess = (req, res, next) => {
 		.populate('cart.items.productId')
 		.execPopulate()
 		.then((user) => {
-			const products = user.cart.items.map((i) => {
+			const products = user.cart.items.map(i => {
 				return {
 					quantity: i.quantity,
 					product: { ...i.productId._doc },
 					totalPay: i.totalPay,
 				};
 			});
-			const order = new OrderModel({
+			const order = new Order({
 				user: {
 					email: req.user.email,
 					userId: req.user,

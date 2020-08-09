@@ -74,7 +74,7 @@ exports.postAddProduct = (req, res, next) => {
       validationErrors: errors.array()
     });
   }
-  //files are not stored in the DB, but in a fole system
+  //files are not stored in the DB, but in a file system
   const imageUrl = image.path; //will store the path of the image
 
   const product = new Product({

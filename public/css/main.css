@@ -502,11 +502,29 @@ margin-left:13%
  /*contact*/
  .concontainer {
   background: #FFFFFF;
-  width: 50%;
-  height: 50%;
-  margin: 5% auto;
+ display: flex;
+ flex-direction: row;
+ width: 80%;
+  justify-content: center;
+  margin: auto;
+  margin-bottom: 40%;
 }
-
+@media (max-width: 768px) {
+  .concontainer{
+      display: flex;
+      flex-direction: column;
+  }
+}
+.btncontact{
+margin-bottom: 5%;
+}
+.contact-form{
+width:100%;
+padding-right: 5%
+}
+.map{
+  width: 100%;
+}
 
 .userstable{
   width: 70%;
