@@ -353,6 +353,9 @@ article{
   .main-header__nav {
     display: none;
   }
+  .logoimg{
+    margin-top:4rem;
+  }
 }
 
 /* Large devices (desktops, 992px and up) 
@@ -374,7 +377,9 @@ footer{
   background-color: #A77457;
   color: #FBF0E5;
 }
-
+.forgoten{
+  margin-bottom: 40%;
+}
 /*carousel*/
 .carousel-inner{
   height: 100%;
@@ -562,3 +567,6 @@ color: cornsilk;
   color:red;
 }
 
+.servererrors{
+  margin-bottom: 50%;
+}

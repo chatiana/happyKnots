@@ -12,7 +12,7 @@
 
             <div class="prd2">
                 <h1><%= product.title %></h1>
-                <h2><%= product.price %> Eur </h2>
+                <h2>Eur € <%= product.price %> </h2>
                 <p><%= product.description %></p>
                 <% if (isAuthenticated) { %>
                 <%- include('../includes/add-to-cart.ejs', {product:product}) %>

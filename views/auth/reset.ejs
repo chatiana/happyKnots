@@ -7,7 +7,12 @@
    <%- include('../includes/navigation.ejs') %>
 
     <main>
-        <h2>Forgoten your password?</h2>
+
+        <div class="allheader text-center">
+            <h2>Forgoten your password?</h2>
+        </div>
+<div class="forgoten">
+       
         <% if (errorMessage) { %>
             <div class="user-message user-message--error"><%= errorMessage %></div>
         <% } %>
@@ -17,7 +22,10 @@
                 <input class="form-control" type="email" name="email" id="email">
             </div>
             <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-            <button class="btn btn-primary" type="submit">Submit</button>
+            <button class="btnhome" type="submit">Submit</button>
         </form>
+
+
+    </div>
     </main>
 <%- include('../includes/end.ejs') %>
