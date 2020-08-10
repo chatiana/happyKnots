@@ -27,3 +27,11 @@
     border: 1px solid #445925;
     color: #445925;
 }
+.userstable{
+  font-size: 7px;
+  width:100%;
+}
+.table{
+  width: 50%;
+  margin:auto;
+}

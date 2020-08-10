@@ -135,3 +135,12 @@
   text-decoration: none;
   color: white;
 }
+
+.userstable{
+  font-size: 7px;
+  width:100%;
+}
+.table{
+  width: 50%;
+  margin:auto;
+}
