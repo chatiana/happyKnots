@@ -387,6 +387,10 @@ article{
   .admin-menu{
     font-size: 23px;
   }
+  .orderscontent, .userstable{
+    width:70%;
+  }
+  
 }
 
 /* Large devices (desktops, 992px and up) 
@@ -608,12 +612,17 @@ color: cornsilk;
   color:chocolate;
   }
   .login-form a:hover,
-  .fpassword a:hover{
+  .fpassword a:hover,
+    .fregister a:hover{
       color:#445925;
       text-decoration: none;
       }
 
 
       .reset{
+        margin-bottom: 40%;
+      }
+
+      .logincontainer{
         margin-bottom: 40%;
       }

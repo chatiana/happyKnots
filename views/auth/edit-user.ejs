@@ -18,7 +18,7 @@
             </div>
         <% } %>
         
-        <form class="login-form" action="/auth/user-edit" method="POST" novalidate>    
+        <form class="editform login-form" action="/auth/user-edit" method="POST" novalidate>    
             <div class="form-group ">
                 <label for="email">E-Mail</label>
                 <input 
@@ -100,8 +100,8 @@
               </div>
             </div>
           <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-          <button class="btn btn-primary" type="submit">Save changes</button>
-          <a href="/userdash" type="button" class="btn btn-primary">Cancel</a>
+          <button class="btnhome" type="submit">Save changes</button>
+          <a href="/userdash" type="button" class="btnhome">Cancel</a>
       </form>
     </main>
 

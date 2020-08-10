@@ -27,6 +27,19 @@
 }
 .login-form{
   width: 50%;
+  margin-bottom: 40%;
+}
+.editform{
+  margin-bottom: 40%;
+}
+.editform a{
+  text-decoration: none;
+  color: #445925;
+}
+.editform a:hover{
+  background-color: #445925;
+  text-decoration: none;
+  color: white;
 }
 
 
@@ -101,3 +114,24 @@
 .signup-form form a:hover{
   text-decoration: underline;
 }  
+.product-form{
+  margin-bottom: 40%;
+}
+.btnhome{
+  display: inline-block;
+  padding: 0.25rem 1rem;
+  text-decoration: none;
+  font: inherit;
+  border: 1px solid #445925;
+  color: #445925;
+  background: white;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.btnhome:hover,
+.btnhome :active {
+  background-color: #445925;
+  text-decoration: none;
+  color: white;
+}

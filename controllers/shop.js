@@ -95,10 +95,10 @@ exports.getCart = (req, res, next) => {
 exports.postCart = (req, res, next) => {
 	const prodId = req.body.productId;
 	Product.findById(prodId)
-		.then((product) => {
+	.then((product) => {
 			return req.user.addToCart(product);
 		})
-		.then((result) => {
+	.then((result) => {
 			console.log(result);
 			User.findOne({ _id: req.session.user._id })
 				.populate({
@@ -110,10 +110,11 @@ exports.postCart = (req, res, next) => {
 						},
 					},
 				})
-				.then((user) => {
-					const total = user.cart.items.reduce((accumulator, currentValue) => {
-						const {
-							quantity,
+	.then((user) => {
+		const total = 
+			user.cart.items.reduce((accumulator, currentValue) => {
+				const {
+					quantity,
 							productId: { price },
 						} = currentValue;
 

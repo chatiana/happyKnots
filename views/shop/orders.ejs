@@ -9,7 +9,7 @@
                 <h1>Your Orders</h1>
               </div>
 
-
+<div class="orderscontent">
             <% if (orders.length <= 0) { %>
                 <h1>Nothing there!</h1>
     <% } else { %>
@@ -18,10 +18,11 @@
               
                 <thead>
                   <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Order No.</th>
-                        <th scope="col">Items</th>
+                        <th scope="col">OrderId</th>
                         <th scope="col">Date Created</th>
+                        <th scope="col">User Id</th>
+                        <th scope="col">Items</th>
+                        <th scope="col"></th>
                   </tr>
                 </thead>
             
@@ -30,14 +31,18 @@
                     <% orders.forEach(order => { %>
                   <tr>
                    
-                    <td></td>
+                    
                     <td><%= order._id %> </td>
+                    
+                    <td><% if(order.date) { %> <%= order.date %> <%
+                    } %></td>
+                    <td><%= order.user.email %></td>
                     <td><ul class="orders__products">
                         <% order.products.forEach(p => { %>
                             <li class="orders__products-item"><%= p.product.title %> (Qty: <%= p.quantity %>) = <%= p.product.price %> Eur </li>
                         <% }); %>
                     </ul></td>
-                    <td></td>
+                    <td> </td>
                    
                   </tr>
                   <% }); %>
@@ -47,6 +52,6 @@
 
               <% } %>
             </div>
-
+          </div>
         </main>
         <%- include('../includes/end.ejs') %>
