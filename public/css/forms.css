@@ -137,10 +137,16 @@
 }
 
 .userstable{
-  font-size: 7px;
+  font-size: 18px;
   width:100%;
 }
 .table{
   width: 50%;
   margin:auto;
+}
+
+@media only screen and (max-width: 600px) {
+  .userstable{
+    font-size: 12px;
+  }
 }
